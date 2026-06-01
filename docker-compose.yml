@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  api:
+    container_name: orbit-api
+
+    build: .
+
+    command: yarn start:dev
+
+    ports:
+      - '3000:3000'
+
+    volumes:
+      - .:/app
+
+  postgres:
+    container_name: orbit-db
+    image: postgres:15
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=orbit
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+  
+volumes:
+  postgres-data:
