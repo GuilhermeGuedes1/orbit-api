@@ -1,5 +1,5 @@
 export class CurrentUserDto {
-  sub!: number;
+  sub!: string;
   name!: string;
   email!: string;
   organizationId!: string;
