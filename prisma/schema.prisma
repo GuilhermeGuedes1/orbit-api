@@ -29,6 +29,7 @@ model Organization  {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  invites     Invite[]
   users       User[]
 
 }
@@ -47,5 +48,34 @@ model User {
   
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
+
+  createdInvites     Invite[]     
 }
 
+
+model Invite {
+  id             String       @id @default(uuid())
+  email          String
+  token          String       @unique
+  role           Role
+  status         InviteStatus @default(PENDING)
+
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+
+  createdById    String
+  createdBy      User         @relation(fields: [createdById], references: [id])
+
+  expiresAt      DateTime
+  acceptedAt     DateTime?
+
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
+
+enum InviteStatus {
+  PENDING
+  ACCEPTED
+  EXPIRED
+  CANCELLED
+}
