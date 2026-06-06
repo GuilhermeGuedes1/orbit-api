@@ -3,9 +3,17 @@ import { AuthModule } from './auth/auth.module';
 import { PrismaService } from './prisma/prisma.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { OrganizationModule } from './organization/organization.module';
+import { InvitesModule } from './invites/invites.module';
+import { AiModule } from './ai/ai.module';
 
 @Module({
-  imports: [AuthModule, PrismaModule, OrganizationModule],
+  imports: [
+    AuthModule,
+    PrismaModule,
+    OrganizationModule,
+    InvitesModule,
+    AiModule,
+  ],
   controllers: [],
   providers: [PrismaService],
 })
