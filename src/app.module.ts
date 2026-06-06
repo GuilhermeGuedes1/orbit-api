@@ -5,6 +5,8 @@ import { PrismaModule } from './prisma/prisma.module';
 import { OrganizationModule } from './organization/organization.module';
 import { InvitesModule } from './invites/invites.module';
 import { AiModule } from './ai/ai.module';
+import { EventsModule } from './events/events.module';
+import { EventssModule } from './eventss/eventss.module';
 
 @Module({
   imports: [
@@ -13,6 +15,8 @@ import { AiModule } from './ai/ai.module';
     OrganizationModule,
     InvitesModule,
     AiModule,
+    EventsModule,
+    EventssModule,
   ],
   controllers: [],
   providers: [PrismaService],
