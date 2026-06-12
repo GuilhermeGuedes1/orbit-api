@@ -13,7 +13,9 @@ import { LoginDto } from './dtos/login.dto';
 import { AuthGuard } from './auth.guards';
 import { CurrentUser } from './decorators/user.decorator';
 import { CurrentUserDto } from './dtos/user.dto';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -42,12 +44,14 @@ export class AuthController {
     return this.authService.login(body);
   }
 
+  @ApiBearerAuth()
   @UseGuards(AuthGuard)
   @Get('profile')
   getProfile(@CurrentUser() user: CurrentUserDto) {
     return new CurrentUserDto(user);
   }
 
+  @ApiBearerAuth()
   @UseGuards(AuthGuard)
   @Get('users')
   getUsers(@CurrentUser() user: CurrentUserDto) {

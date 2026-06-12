@@ -5,11 +5,14 @@ import { CurrentUser } from 'src/auth/decorators/user.decorator';
 import { CurrentUserDto } from '../auth/dtos/user.dto';
 import { CreateInviteDto } from './dtos/create-invite.dto';
 import { AcceptInviteDto } from './dtos/accept-invite.dto';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Invites')
 @Controller('invites')
 export class InvitesController {
   constructor(private readonly invitesService: InvitesService) {}
 
+  @ApiBearerAuth()
   @UseGuards(AuthGuard)
   @Post()
   createInvite(
