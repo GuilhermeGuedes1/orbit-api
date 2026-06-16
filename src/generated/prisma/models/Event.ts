@@ -20,18 +20,8 @@ export type EventModel = runtime.Types.Result.DefaultSelection<Prisma.$EventPayl
 
 export type AggregateEvent = {
   _count: EventCountAggregateOutputType | null
-  _avg: EventAvgAggregateOutputType | null
-  _sum: EventSumAggregateOutputType | null
   _min: EventMinAggregateOutputType | null
   _max: EventMaxAggregateOutputType | null
-}
-
-export type EventAvgAggregateOutputType = {
-  fee: runtime.Decimal | null
-}
-
-export type EventSumAggregateOutputType = {
-  fee: runtime.Decimal | null
 }
 
 export type EventMinAggregateOutputType = {
@@ -40,15 +30,18 @@ export type EventMinAggregateOutputType = {
   eventDate: Date | null
   startTime: string | null
   endTime: string | null
+  setDuration: string | null
   venueName: string | null
   address: string | null
   city: string | null
   state: string | null
-  fee: runtime.Decimal | null
+  paymentDate: Date | null
+  paymentMethod: $Enums.PaymentMethod | null
+  hasContract: boolean | null
   notes: string | null
-  organizationId: string | null
-  clientId: string | null
   artistId: string | null
+  clientId: string | null
+  organizationId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -59,15 +52,18 @@ export type EventMaxAggregateOutputType = {
   eventDate: Date | null
   startTime: string | null
   endTime: string | null
+  setDuration: string | null
   venueName: string | null
   address: string | null
   city: string | null
   state: string | null
-  fee: runtime.Decimal | null
+  paymentDate: Date | null
+  paymentMethod: $Enums.PaymentMethod | null
+  hasContract: boolean | null
   notes: string | null
-  organizationId: string | null
-  clientId: string | null
   artistId: string | null
+  clientId: string | null
+  organizationId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -78,28 +74,23 @@ export type EventCountAggregateOutputType = {
   eventDate: number
   startTime: number
   endTime: number
+  setDuration: number
   venueName: number
   address: number
   city: number
   state: number
-  fee: number
+  paymentDate: number
+  paymentMethod: number
+  hasContract: number
   notes: number
-  organizationId: number
-  clientId: number
   artistId: number
+  clientId: number
+  organizationId: number
   createdAt: number
   updatedAt: number
   _all: number
 }
 
-
-export type EventAvgAggregateInputType = {
-  fee?: true
-}
-
-export type EventSumAggregateInputType = {
-  fee?: true
-}
 
 export type EventMinAggregateInputType = {
   id?: true
@@ -107,15 +98,18 @@ export type EventMinAggregateInputType = {
   eventDate?: true
   startTime?: true
   endTime?: true
+  setDuration?: true
   venueName?: true
   address?: true
   city?: true
   state?: true
-  fee?: true
+  paymentDate?: true
+  paymentMethod?: true
+  hasContract?: true
   notes?: true
-  organizationId?: true
-  clientId?: true
   artistId?: true
+  clientId?: true
+  organizationId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -126,15 +120,18 @@ export type EventMaxAggregateInputType = {
   eventDate?: true
   startTime?: true
   endTime?: true
+  setDuration?: true
   venueName?: true
   address?: true
   city?: true
   state?: true
-  fee?: true
+  paymentDate?: true
+  paymentMethod?: true
+  hasContract?: true
   notes?: true
-  organizationId?: true
-  clientId?: true
   artistId?: true
+  clientId?: true
+  organizationId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -145,15 +142,18 @@ export type EventCountAggregateInputType = {
   eventDate?: true
   startTime?: true
   endTime?: true
+  setDuration?: true
   venueName?: true
   address?: true
   city?: true
   state?: true
-  fee?: true
+  paymentDate?: true
+  paymentMethod?: true
+  hasContract?: true
   notes?: true
-  organizationId?: true
-  clientId?: true
   artistId?: true
+  clientId?: true
+  organizationId?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -197,18 +197,6 @@ export type EventAggregateArgs<ExtArgs extends runtime.Types.Extensions.Internal
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: EventAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: EventSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: EventMinAggregateInputType
@@ -239,8 +227,6 @@ export type EventGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   _count?: EventCountAggregateInputType | true
-  _avg?: EventAvgAggregateInputType
-  _sum?: EventSumAggregateInputType
   _min?: EventMinAggregateInputType
   _max?: EventMaxAggregateInputType
 }
@@ -251,20 +237,21 @@ export type EventGroupByOutputType = {
   eventDate: Date
   startTime: string | null
   endTime: string | null
+  setDuration: string | null
   venueName: string | null
   address: string | null
   city: string | null
   state: string | null
-  fee: runtime.Decimal | null
+  paymentDate: Date | null
+  paymentMethod: $Enums.PaymentMethod | null
+  hasContract: boolean
   notes: string | null
-  organizationId: string
-  clientId: string | null
   artistId: string | null
+  clientId: string | null
+  organizationId: string
   createdAt: Date
   updatedAt: Date
   _count: EventCountAggregateOutputType | null
-  _avg: EventAvgAggregateOutputType | null
-  _sum: EventSumAggregateOutputType | null
   _min: EventMinAggregateOutputType | null
   _max: EventMaxAggregateOutputType | null
 }
@@ -293,20 +280,23 @@ export type EventWhereInput = {
   eventDate?: Prisma.DateTimeFilter<"Event"> | Date | string
   startTime?: Prisma.StringNullableFilter<"Event"> | string | null
   endTime?: Prisma.StringNullableFilter<"Event"> | string | null
+  setDuration?: Prisma.StringNullableFilter<"Event"> | string | null
   venueName?: Prisma.StringNullableFilter<"Event"> | string | null
   address?: Prisma.StringNullableFilter<"Event"> | string | null
   city?: Prisma.StringNullableFilter<"Event"> | string | null
   state?: Prisma.StringNullableFilter<"Event"> | string | null
-  fee?: Prisma.DecimalNullableFilter<"Event"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentDate?: Prisma.DateTimeNullableFilter<"Event"> | Date | string | null
+  paymentMethod?: Prisma.EnumPaymentMethodNullableFilter<"Event"> | $Enums.PaymentMethod | null
+  hasContract?: Prisma.BoolFilter<"Event"> | boolean
   notes?: Prisma.StringNullableFilter<"Event"> | string | null
-  organizationId?: Prisma.StringFilter<"Event"> | string
-  clientId?: Prisma.StringNullableFilter<"Event"> | string | null
   artistId?: Prisma.StringNullableFilter<"Event"> | string | null
+  clientId?: Prisma.StringNullableFilter<"Event"> | string | null
+  organizationId?: Prisma.StringFilter<"Event"> | string
   createdAt?: Prisma.DateTimeFilter<"Event"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Event"> | Date | string
-  organization?: Prisma.XOR<Prisma.OrganizationScalarRelationFilter, Prisma.OrganizationWhereInput>
+  artist?: Prisma.XOR<Prisma.ArtistNullableScalarRelationFilter, Prisma.ArtistWhereInput> | null
   client?: Prisma.XOR<Prisma.ClientNullableScalarRelationFilter, Prisma.ClientWhereInput> | null
-  artist?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  organization?: Prisma.XOR<Prisma.OrganizationScalarRelationFilter, Prisma.OrganizationWhereInput>
 }
 
 export type EventOrderByWithRelationInput = {
@@ -315,20 +305,23 @@ export type EventOrderByWithRelationInput = {
   eventDate?: Prisma.SortOrder
   startTime?: Prisma.SortOrderInput | Prisma.SortOrder
   endTime?: Prisma.SortOrderInput | Prisma.SortOrder
+  setDuration?: Prisma.SortOrderInput | Prisma.SortOrder
   venueName?: Prisma.SortOrderInput | Prisma.SortOrder
   address?: Prisma.SortOrderInput | Prisma.SortOrder
   city?: Prisma.SortOrderInput | Prisma.SortOrder
   state?: Prisma.SortOrderInput | Prisma.SortOrder
-  fee?: Prisma.SortOrderInput | Prisma.SortOrder
+  paymentDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  paymentMethod?: Prisma.SortOrderInput | Prisma.SortOrder
+  hasContract?: Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
-  organizationId?: Prisma.SortOrder
-  clientId?: Prisma.SortOrderInput | Prisma.SortOrder
   artistId?: Prisma.SortOrderInput | Prisma.SortOrder
+  clientId?: Prisma.SortOrderInput | Prisma.SortOrder
+  organizationId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  organization?: Prisma.OrganizationOrderByWithRelationInput
+  artist?: Prisma.ArtistOrderByWithRelationInput
   client?: Prisma.ClientOrderByWithRelationInput
-  artist?: Prisma.UserOrderByWithRelationInput
+  organization?: Prisma.OrganizationOrderByWithRelationInput
 }
 
 export type EventWhereUniqueInput = Prisma.AtLeast<{
@@ -340,20 +333,23 @@ export type EventWhereUniqueInput = Prisma.AtLeast<{
   eventDate?: Prisma.DateTimeFilter<"Event"> | Date | string
   startTime?: Prisma.StringNullableFilter<"Event"> | string | null
   endTime?: Prisma.StringNullableFilter<"Event"> | string | null
+  setDuration?: Prisma.StringNullableFilter<"Event"> | string | null
   venueName?: Prisma.StringNullableFilter<"Event"> | string | null
   address?: Prisma.StringNullableFilter<"Event"> | string | null
   city?: Prisma.StringNullableFilter<"Event"> | string | null
   state?: Prisma.StringNullableFilter<"Event"> | string | null
-  fee?: Prisma.DecimalNullableFilter<"Event"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentDate?: Prisma.DateTimeNullableFilter<"Event"> | Date | string | null
+  paymentMethod?: Prisma.EnumPaymentMethodNullableFilter<"Event"> | $Enums.PaymentMethod | null
+  hasContract?: Prisma.BoolFilter<"Event"> | boolean
   notes?: Prisma.StringNullableFilter<"Event"> | string | null
-  organizationId?: Prisma.StringFilter<"Event"> | string
-  clientId?: Prisma.StringNullableFilter<"Event"> | string | null
   artistId?: Prisma.StringNullableFilter<"Event"> | string | null
+  clientId?: Prisma.StringNullableFilter<"Event"> | string | null
+  organizationId?: Prisma.StringFilter<"Event"> | string
   createdAt?: Prisma.DateTimeFilter<"Event"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Event"> | Date | string
-  organization?: Prisma.XOR<Prisma.OrganizationScalarRelationFilter, Prisma.OrganizationWhereInput>
+  artist?: Prisma.XOR<Prisma.ArtistNullableScalarRelationFilter, Prisma.ArtistWhereInput> | null
   client?: Prisma.XOR<Prisma.ClientNullableScalarRelationFilter, Prisma.ClientWhereInput> | null
-  artist?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  organization?: Prisma.XOR<Prisma.OrganizationScalarRelationFilter, Prisma.OrganizationWhereInput>
 }, "id">
 
 export type EventOrderByWithAggregationInput = {
@@ -362,22 +358,23 @@ export type EventOrderByWithAggregationInput = {
   eventDate?: Prisma.SortOrder
   startTime?: Prisma.SortOrderInput | Prisma.SortOrder
   endTime?: Prisma.SortOrderInput | Prisma.SortOrder
+  setDuration?: Prisma.SortOrderInput | Prisma.SortOrder
   venueName?: Prisma.SortOrderInput | Prisma.SortOrder
   address?: Prisma.SortOrderInput | Prisma.SortOrder
   city?: Prisma.SortOrderInput | Prisma.SortOrder
   state?: Prisma.SortOrderInput | Prisma.SortOrder
-  fee?: Prisma.SortOrderInput | Prisma.SortOrder
+  paymentDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  paymentMethod?: Prisma.SortOrderInput | Prisma.SortOrder
+  hasContract?: Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
-  organizationId?: Prisma.SortOrder
-  clientId?: Prisma.SortOrderInput | Prisma.SortOrder
   artistId?: Prisma.SortOrderInput | Prisma.SortOrder
+  clientId?: Prisma.SortOrderInput | Prisma.SortOrder
+  organizationId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.EventCountOrderByAggregateInput
-  _avg?: Prisma.EventAvgOrderByAggregateInput
   _max?: Prisma.EventMaxOrderByAggregateInput
   _min?: Prisma.EventMinOrderByAggregateInput
-  _sum?: Prisma.EventSumOrderByAggregateInput
 }
 
 export type EventScalarWhereWithAggregatesInput = {
@@ -389,15 +386,18 @@ export type EventScalarWhereWithAggregatesInput = {
   eventDate?: Prisma.DateTimeWithAggregatesFilter<"Event"> | Date | string
   startTime?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null
   endTime?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null
+  setDuration?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null
   venueName?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null
   address?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null
   city?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null
   state?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null
-  fee?: Prisma.DecimalNullableWithAggregatesFilter<"Event"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Event"> | Date | string | null
+  paymentMethod?: Prisma.EnumPaymentMethodNullableWithAggregatesFilter<"Event"> | $Enums.PaymentMethod | null
+  hasContract?: Prisma.BoolWithAggregatesFilter<"Event"> | boolean
   notes?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null
-  organizationId?: Prisma.StringWithAggregatesFilter<"Event"> | string
-  clientId?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null
   artistId?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null
+  clientId?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null
+  organizationId?: Prisma.StringWithAggregatesFilter<"Event"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Event"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Event"> | Date | string
 }
@@ -408,17 +408,20 @@ export type EventCreateInput = {
   eventDate: Date | string
   startTime?: string | null
   endTime?: string | null
+  setDuration?: string | null
   venueName?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
-  fee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentDate?: Date | string | null
+  paymentMethod?: $Enums.PaymentMethod | null
+  hasContract?: boolean
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  organization: Prisma.OrganizationCreateNestedOneWithoutEventsInput
+  artist?: Prisma.ArtistCreateNestedOneWithoutEventsInput
   client?: Prisma.ClientCreateNestedOneWithoutEventsInput
-  artist?: Prisma.UserCreateNestedOneWithoutArtistEventsInput
+  organization: Prisma.OrganizationCreateNestedOneWithoutEventsInput
 }
 
 export type EventUncheckedCreateInput = {
@@ -427,15 +430,18 @@ export type EventUncheckedCreateInput = {
   eventDate: Date | string
   startTime?: string | null
   endTime?: string | null
+  setDuration?: string | null
   venueName?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
-  fee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentDate?: Date | string | null
+  paymentMethod?: $Enums.PaymentMethod | null
+  hasContract?: boolean
   notes?: string | null
-  organizationId: string
-  clientId?: string | null
   artistId?: string | null
+  clientId?: string | null
+  organizationId: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -446,17 +452,20 @@ export type EventUpdateInput = {
   eventDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  setDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   venueName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
+  hasContract?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  organization?: Prisma.OrganizationUpdateOneRequiredWithoutEventsNestedInput
+  artist?: Prisma.ArtistUpdateOneWithoutEventsNestedInput
   client?: Prisma.ClientUpdateOneWithoutEventsNestedInput
-  artist?: Prisma.UserUpdateOneWithoutArtistEventsNestedInput
+  organization?: Prisma.OrganizationUpdateOneRequiredWithoutEventsNestedInput
 }
 
 export type EventUncheckedUpdateInput = {
@@ -465,15 +474,18 @@ export type EventUncheckedUpdateInput = {
   eventDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  setDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   venueName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
+  hasContract?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
-  clientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   artistId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -484,15 +496,18 @@ export type EventCreateManyInput = {
   eventDate: Date | string
   startTime?: string | null
   endTime?: string | null
+  setDuration?: string | null
   venueName?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
-  fee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentDate?: Date | string | null
+  paymentMethod?: $Enums.PaymentMethod | null
+  hasContract?: boolean
   notes?: string | null
-  organizationId: string
-  clientId?: string | null
   artistId?: string | null
+  clientId?: string | null
+  organizationId: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -503,11 +518,14 @@ export type EventUpdateManyMutationInput = {
   eventDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  setDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   venueName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
+  hasContract?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -519,15 +537,18 @@ export type EventUncheckedUpdateManyInput = {
   eventDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  setDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   venueName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
+  hasContract?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
-  clientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   artistId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -548,21 +569,20 @@ export type EventCountOrderByAggregateInput = {
   eventDate?: Prisma.SortOrder
   startTime?: Prisma.SortOrder
   endTime?: Prisma.SortOrder
+  setDuration?: Prisma.SortOrder
   venueName?: Prisma.SortOrder
   address?: Prisma.SortOrder
   city?: Prisma.SortOrder
   state?: Prisma.SortOrder
-  fee?: Prisma.SortOrder
+  paymentDate?: Prisma.SortOrder
+  paymentMethod?: Prisma.SortOrder
+  hasContract?: Prisma.SortOrder
   notes?: Prisma.SortOrder
-  organizationId?: Prisma.SortOrder
-  clientId?: Prisma.SortOrder
   artistId?: Prisma.SortOrder
+  clientId?: Prisma.SortOrder
+  organizationId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-}
-
-export type EventAvgOrderByAggregateInput = {
-  fee?: Prisma.SortOrder
 }
 
 export type EventMaxOrderByAggregateInput = {
@@ -571,15 +591,18 @@ export type EventMaxOrderByAggregateInput = {
   eventDate?: Prisma.SortOrder
   startTime?: Prisma.SortOrder
   endTime?: Prisma.SortOrder
+  setDuration?: Prisma.SortOrder
   venueName?: Prisma.SortOrder
   address?: Prisma.SortOrder
   city?: Prisma.SortOrder
   state?: Prisma.SortOrder
-  fee?: Prisma.SortOrder
+  paymentDate?: Prisma.SortOrder
+  paymentMethod?: Prisma.SortOrder
+  hasContract?: Prisma.SortOrder
   notes?: Prisma.SortOrder
-  organizationId?: Prisma.SortOrder
-  clientId?: Prisma.SortOrder
   artistId?: Prisma.SortOrder
+  clientId?: Prisma.SortOrder
+  organizationId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -590,21 +613,20 @@ export type EventMinOrderByAggregateInput = {
   eventDate?: Prisma.SortOrder
   startTime?: Prisma.SortOrder
   endTime?: Prisma.SortOrder
+  setDuration?: Prisma.SortOrder
   venueName?: Prisma.SortOrder
   address?: Prisma.SortOrder
   city?: Prisma.SortOrder
   state?: Prisma.SortOrder
-  fee?: Prisma.SortOrder
+  paymentDate?: Prisma.SortOrder
+  paymentMethod?: Prisma.SortOrder
+  hasContract?: Prisma.SortOrder
   notes?: Prisma.SortOrder
-  organizationId?: Prisma.SortOrder
-  clientId?: Prisma.SortOrder
   artistId?: Prisma.SortOrder
+  clientId?: Prisma.SortOrder
+  organizationId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-}
-
-export type EventSumOrderByAggregateInput = {
-  fee?: Prisma.SortOrder
 }
 
 export type EventCreateNestedManyWithoutOrganizationInput = {
@@ -691,18 +713,6 @@ export type EventUncheckedUpdateManyWithoutArtistNestedInput = {
   deleteMany?: Prisma.EventScalarWhereInput | Prisma.EventScalarWhereInput[]
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
-}
-
-export type NullableDecimalFieldUpdateOperationsInput = {
-  set?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
-}
-
 export type EventCreateNestedManyWithoutClientInput = {
   create?: Prisma.XOR<Prisma.EventCreateWithoutClientInput, Prisma.EventUncheckedCreateWithoutClientInput> | Prisma.EventCreateWithoutClientInput[] | Prisma.EventUncheckedCreateWithoutClientInput[]
   connectOrCreate?: Prisma.EventCreateOrConnectWithoutClientInput | Prisma.EventCreateOrConnectWithoutClientInput[]
@@ -745,22 +755,33 @@ export type EventUncheckedUpdateManyWithoutClientNestedInput = {
   deleteMany?: Prisma.EventScalarWhereInput | Prisma.EventScalarWhereInput[]
 }
 
+export type NullableEnumPaymentMethodFieldUpdateOperationsInput = {
+  set?: $Enums.PaymentMethod | null
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
+}
+
 export type EventCreateWithoutOrganizationInput = {
   id?: string
   title: string
   eventDate: Date | string
   startTime?: string | null
   endTime?: string | null
+  setDuration?: string | null
   venueName?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
-  fee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentDate?: Date | string | null
+  paymentMethod?: $Enums.PaymentMethod | null
+  hasContract?: boolean
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  artist?: Prisma.ArtistCreateNestedOneWithoutEventsInput
   client?: Prisma.ClientCreateNestedOneWithoutEventsInput
-  artist?: Prisma.UserCreateNestedOneWithoutArtistEventsInput
 }
 
 export type EventUncheckedCreateWithoutOrganizationInput = {
@@ -769,14 +790,17 @@ export type EventUncheckedCreateWithoutOrganizationInput = {
   eventDate: Date | string
   startTime?: string | null
   endTime?: string | null
+  setDuration?: string | null
   venueName?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
-  fee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentDate?: Date | string | null
+  paymentMethod?: $Enums.PaymentMethod | null
+  hasContract?: boolean
   notes?: string | null
-  clientId?: string | null
   artistId?: string | null
+  clientId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -816,15 +840,18 @@ export type EventScalarWhereInput = {
   eventDate?: Prisma.DateTimeFilter<"Event"> | Date | string
   startTime?: Prisma.StringNullableFilter<"Event"> | string | null
   endTime?: Prisma.StringNullableFilter<"Event"> | string | null
+  setDuration?: Prisma.StringNullableFilter<"Event"> | string | null
   venueName?: Prisma.StringNullableFilter<"Event"> | string | null
   address?: Prisma.StringNullableFilter<"Event"> | string | null
   city?: Prisma.StringNullableFilter<"Event"> | string | null
   state?: Prisma.StringNullableFilter<"Event"> | string | null
-  fee?: Prisma.DecimalNullableFilter<"Event"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentDate?: Prisma.DateTimeNullableFilter<"Event"> | Date | string | null
+  paymentMethod?: Prisma.EnumPaymentMethodNullableFilter<"Event"> | $Enums.PaymentMethod | null
+  hasContract?: Prisma.BoolFilter<"Event"> | boolean
   notes?: Prisma.StringNullableFilter<"Event"> | string | null
-  organizationId?: Prisma.StringFilter<"Event"> | string
-  clientId?: Prisma.StringNullableFilter<"Event"> | string | null
   artistId?: Prisma.StringNullableFilter<"Event"> | string | null
+  clientId?: Prisma.StringNullableFilter<"Event"> | string | null
+  organizationId?: Prisma.StringFilter<"Event"> | string
   createdAt?: Prisma.DateTimeFilter<"Event"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Event"> | Date | string
 }
@@ -835,16 +862,19 @@ export type EventCreateWithoutArtistInput = {
   eventDate: Date | string
   startTime?: string | null
   endTime?: string | null
+  setDuration?: string | null
   venueName?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
-  fee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentDate?: Date | string | null
+  paymentMethod?: $Enums.PaymentMethod | null
+  hasContract?: boolean
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  organization: Prisma.OrganizationCreateNestedOneWithoutEventsInput
   client?: Prisma.ClientCreateNestedOneWithoutEventsInput
+  organization: Prisma.OrganizationCreateNestedOneWithoutEventsInput
 }
 
 export type EventUncheckedCreateWithoutArtistInput = {
@@ -853,14 +883,17 @@ export type EventUncheckedCreateWithoutArtistInput = {
   eventDate: Date | string
   startTime?: string | null
   endTime?: string | null
+  setDuration?: string | null
   venueName?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
-  fee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentDate?: Date | string | null
+  paymentMethod?: $Enums.PaymentMethod | null
+  hasContract?: boolean
   notes?: string | null
-  organizationId: string
   clientId?: string | null
+  organizationId: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -897,16 +930,19 @@ export type EventCreateWithoutClientInput = {
   eventDate: Date | string
   startTime?: string | null
   endTime?: string | null
+  setDuration?: string | null
   venueName?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
-  fee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentDate?: Date | string | null
+  paymentMethod?: $Enums.PaymentMethod | null
+  hasContract?: boolean
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  artist?: Prisma.ArtistCreateNestedOneWithoutEventsInput
   organization: Prisma.OrganizationCreateNestedOneWithoutEventsInput
-  artist?: Prisma.UserCreateNestedOneWithoutArtistEventsInput
 }
 
 export type EventUncheckedCreateWithoutClientInput = {
@@ -915,14 +951,17 @@ export type EventUncheckedCreateWithoutClientInput = {
   eventDate: Date | string
   startTime?: string | null
   endTime?: string | null
+  setDuration?: string | null
   venueName?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
-  fee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentDate?: Date | string | null
+  paymentMethod?: $Enums.PaymentMethod | null
+  hasContract?: boolean
   notes?: string | null
-  organizationId: string
   artistId?: string | null
+  organizationId: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -959,14 +998,17 @@ export type EventCreateManyOrganizationInput = {
   eventDate: Date | string
   startTime?: string | null
   endTime?: string | null
+  setDuration?: string | null
   venueName?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
-  fee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentDate?: Date | string | null
+  paymentMethod?: $Enums.PaymentMethod | null
+  hasContract?: boolean
   notes?: string | null
-  clientId?: string | null
   artistId?: string | null
+  clientId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -977,16 +1019,19 @@ export type EventUpdateWithoutOrganizationInput = {
   eventDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  setDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   venueName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
+  hasContract?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  artist?: Prisma.ArtistUpdateOneWithoutEventsNestedInput
   client?: Prisma.ClientUpdateOneWithoutEventsNestedInput
-  artist?: Prisma.UserUpdateOneWithoutArtistEventsNestedInput
 }
 
 export type EventUncheckedUpdateWithoutOrganizationInput = {
@@ -995,14 +1040,17 @@ export type EventUncheckedUpdateWithoutOrganizationInput = {
   eventDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  setDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   venueName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
+  hasContract?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  clientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   artistId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1013,14 +1061,17 @@ export type EventUncheckedUpdateManyWithoutOrganizationInput = {
   eventDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  setDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   venueName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
+  hasContract?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  clientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   artistId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1031,14 +1082,17 @@ export type EventCreateManyArtistInput = {
   eventDate: Date | string
   startTime?: string | null
   endTime?: string | null
+  setDuration?: string | null
   venueName?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
-  fee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentDate?: Date | string | null
+  paymentMethod?: $Enums.PaymentMethod | null
+  hasContract?: boolean
   notes?: string | null
-  organizationId: string
   clientId?: string | null
+  organizationId: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1049,16 +1103,19 @@ export type EventUpdateWithoutArtistInput = {
   eventDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  setDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   venueName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
+  hasContract?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  organization?: Prisma.OrganizationUpdateOneRequiredWithoutEventsNestedInput
   client?: Prisma.ClientUpdateOneWithoutEventsNestedInput
+  organization?: Prisma.OrganizationUpdateOneRequiredWithoutEventsNestedInput
 }
 
 export type EventUncheckedUpdateWithoutArtistInput = {
@@ -1067,14 +1124,17 @@ export type EventUncheckedUpdateWithoutArtistInput = {
   eventDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  setDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   venueName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
+  hasContract?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   clientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1085,14 +1145,17 @@ export type EventUncheckedUpdateManyWithoutArtistInput = {
   eventDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  setDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   venueName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
+  hasContract?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   clientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1103,14 +1166,17 @@ export type EventCreateManyClientInput = {
   eventDate: Date | string
   startTime?: string | null
   endTime?: string | null
+  setDuration?: string | null
   venueName?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
-  fee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentDate?: Date | string | null
+  paymentMethod?: $Enums.PaymentMethod | null
+  hasContract?: boolean
   notes?: string | null
-  organizationId: string
   artistId?: string | null
+  organizationId: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1121,16 +1187,19 @@ export type EventUpdateWithoutClientInput = {
   eventDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  setDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   venueName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
+  hasContract?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  artist?: Prisma.ArtistUpdateOneWithoutEventsNestedInput
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutEventsNestedInput
-  artist?: Prisma.UserUpdateOneWithoutArtistEventsNestedInput
 }
 
 export type EventUncheckedUpdateWithoutClientInput = {
@@ -1139,14 +1208,17 @@ export type EventUncheckedUpdateWithoutClientInput = {
   eventDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  setDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   venueName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
+  hasContract?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   artistId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1157,14 +1229,17 @@ export type EventUncheckedUpdateManyWithoutClientInput = {
   eventDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   startTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   endTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  setDuration?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   venueName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  paymentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
+  hasContract?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   artistId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1177,20 +1252,23 @@ export type EventSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   eventDate?: boolean
   startTime?: boolean
   endTime?: boolean
+  setDuration?: boolean
   venueName?: boolean
   address?: boolean
   city?: boolean
   state?: boolean
-  fee?: boolean
+  paymentDate?: boolean
+  paymentMethod?: boolean
+  hasContract?: boolean
   notes?: boolean
-  organizationId?: boolean
-  clientId?: boolean
   artistId?: boolean
+  clientId?: boolean
+  organizationId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
-  client?: boolean | Prisma.Event$clientArgs<ExtArgs>
   artist?: boolean | Prisma.Event$artistArgs<ExtArgs>
+  client?: boolean | Prisma.Event$clientArgs<ExtArgs>
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["event"]>
 
 export type EventSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1199,20 +1277,23 @@ export type EventSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   eventDate?: boolean
   startTime?: boolean
   endTime?: boolean
+  setDuration?: boolean
   venueName?: boolean
   address?: boolean
   city?: boolean
   state?: boolean
-  fee?: boolean
+  paymentDate?: boolean
+  paymentMethod?: boolean
+  hasContract?: boolean
   notes?: boolean
-  organizationId?: boolean
-  clientId?: boolean
   artistId?: boolean
+  clientId?: boolean
+  organizationId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
-  client?: boolean | Prisma.Event$clientArgs<ExtArgs>
   artist?: boolean | Prisma.Event$artistArgs<ExtArgs>
+  client?: boolean | Prisma.Event$clientArgs<ExtArgs>
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["event"]>
 
 export type EventSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1221,20 +1302,23 @@ export type EventSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   eventDate?: boolean
   startTime?: boolean
   endTime?: boolean
+  setDuration?: boolean
   venueName?: boolean
   address?: boolean
   city?: boolean
   state?: boolean
-  fee?: boolean
+  paymentDate?: boolean
+  paymentMethod?: boolean
+  hasContract?: boolean
   notes?: boolean
-  organizationId?: boolean
-  clientId?: boolean
   artistId?: boolean
+  clientId?: boolean
+  organizationId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
-  client?: boolean | Prisma.Event$clientArgs<ExtArgs>
   artist?: boolean | Prisma.Event$artistArgs<ExtArgs>
+  client?: boolean | Prisma.Event$clientArgs<ExtArgs>
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["event"]>
 
 export type EventSelectScalar = {
@@ -1243,42 +1327,45 @@ export type EventSelectScalar = {
   eventDate?: boolean
   startTime?: boolean
   endTime?: boolean
+  setDuration?: boolean
   venueName?: boolean
   address?: boolean
   city?: boolean
   state?: boolean
-  fee?: boolean
+  paymentDate?: boolean
+  paymentMethod?: boolean
+  hasContract?: boolean
   notes?: boolean
-  organizationId?: boolean
-  clientId?: boolean
   artistId?: boolean
+  clientId?: boolean
+  organizationId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type EventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "eventDate" | "startTime" | "endTime" | "venueName" | "address" | "city" | "state" | "fee" | "notes" | "organizationId" | "clientId" | "artistId" | "createdAt" | "updatedAt", ExtArgs["result"]["event"]>
+export type EventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "eventDate" | "startTime" | "endTime" | "setDuration" | "venueName" | "address" | "city" | "state" | "paymentDate" | "paymentMethod" | "hasContract" | "notes" | "artistId" | "clientId" | "organizationId" | "createdAt" | "updatedAt", ExtArgs["result"]["event"]>
 export type EventInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
-  client?: boolean | Prisma.Event$clientArgs<ExtArgs>
   artist?: boolean | Prisma.Event$artistArgs<ExtArgs>
+  client?: boolean | Prisma.Event$clientArgs<ExtArgs>
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }
 export type EventIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
-  client?: boolean | Prisma.Event$clientArgs<ExtArgs>
   artist?: boolean | Prisma.Event$artistArgs<ExtArgs>
+  client?: boolean | Prisma.Event$clientArgs<ExtArgs>
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }
 export type EventIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
-  client?: boolean | Prisma.Event$clientArgs<ExtArgs>
   artist?: boolean | Prisma.Event$artistArgs<ExtArgs>
+  client?: boolean | Prisma.Event$clientArgs<ExtArgs>
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }
 
 export type $EventPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Event"
   objects: {
-    organization: Prisma.$OrganizationPayload<ExtArgs>
+    artist: Prisma.$ArtistPayload<ExtArgs> | null
     client: Prisma.$ClientPayload<ExtArgs> | null
-    artist: Prisma.$UserPayload<ExtArgs> | null
+    organization: Prisma.$OrganizationPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1286,15 +1373,18 @@ export type $EventPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     eventDate: Date
     startTime: string | null
     endTime: string | null
+    setDuration: string | null
     venueName: string | null
     address: string | null
     city: string | null
     state: string | null
-    fee: runtime.Decimal | null
+    paymentDate: Date | null
+    paymentMethod: $Enums.PaymentMethod | null
+    hasContract: boolean
     notes: string | null
-    organizationId: string
-    clientId: string | null
     artistId: string | null
+    clientId: string | null
+    organizationId: string
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["event"]>
@@ -1691,9 +1781,9 @@ readonly fields: EventFieldRefs;
  */
 export interface Prisma__EventClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  organization<T extends Prisma.OrganizationDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrganizationDefaultArgs<ExtArgs>>): Prisma.Prisma__OrganizationClient<runtime.Types.Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  artist<T extends Prisma.Event$artistArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Event$artistArgs<ExtArgs>>): Prisma.Prisma__ArtistClient<runtime.Types.Result.GetResult<Prisma.$ArtistPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   client<T extends Prisma.Event$clientArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Event$clientArgs<ExtArgs>>): Prisma.Prisma__ClientClient<runtime.Types.Result.GetResult<Prisma.$ClientPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  artist<T extends Prisma.Event$artistArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Event$artistArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  organization<T extends Prisma.OrganizationDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrganizationDefaultArgs<ExtArgs>>): Prisma.Prisma__OrganizationClient<runtime.Types.Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1728,15 +1818,18 @@ export interface EventFieldRefs {
   readonly eventDate: Prisma.FieldRef<"Event", 'DateTime'>
   readonly startTime: Prisma.FieldRef<"Event", 'String'>
   readonly endTime: Prisma.FieldRef<"Event", 'String'>
+  readonly setDuration: Prisma.FieldRef<"Event", 'String'>
   readonly venueName: Prisma.FieldRef<"Event", 'String'>
   readonly address: Prisma.FieldRef<"Event", 'String'>
   readonly city: Prisma.FieldRef<"Event", 'String'>
   readonly state: Prisma.FieldRef<"Event", 'String'>
-  readonly fee: Prisma.FieldRef<"Event", 'Decimal'>
+  readonly paymentDate: Prisma.FieldRef<"Event", 'DateTime'>
+  readonly paymentMethod: Prisma.FieldRef<"Event", 'PaymentMethod'>
+  readonly hasContract: Prisma.FieldRef<"Event", 'Boolean'>
   readonly notes: Prisma.FieldRef<"Event", 'String'>
-  readonly organizationId: Prisma.FieldRef<"Event", 'String'>
-  readonly clientId: Prisma.FieldRef<"Event", 'String'>
   readonly artistId: Prisma.FieldRef<"Event", 'String'>
+  readonly clientId: Prisma.FieldRef<"Event", 'String'>
+  readonly organizationId: Prisma.FieldRef<"Event", 'String'>
   readonly createdAt: Prisma.FieldRef<"Event", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Event", 'DateTime'>
 }
@@ -2140,6 +2233,25 @@ export type EventDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
+ * Event.artist
+ */
+export type Event$artistArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Artist
+   */
+  select?: Prisma.ArtistSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Artist
+   */
+  omit?: Prisma.ArtistOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ArtistInclude<ExtArgs> | null
+  where?: Prisma.ArtistWhereInput
+}
+
+/**
  * Event.client
  */
 export type Event$clientArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2156,25 +2268,6 @@ export type Event$clientArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    */
   include?: Prisma.ClientInclude<ExtArgs> | null
   where?: Prisma.ClientWhereInput
-}
-
-/**
- * Event.artist
- */
-export type Event$artistArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the User
-   */
-  select?: Prisma.UserSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the User
-   */
-  omit?: Prisma.UserOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.UserInclude<ExtArgs> | null
-  where?: Prisma.UserWhereInput
 }
 
 /**

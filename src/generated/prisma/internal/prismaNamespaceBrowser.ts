@@ -54,8 +54,9 @@ export const ModelName = {
   Organization: 'Organization',
   User: 'User',
   Invite: 'Invite',
-  Event: 'Event',
-  Client: 'Client'
+  Artist: 'Artist',
+  Client: 'Client',
+  Event: 'Event'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -89,9 +90,9 @@ export type OrganizationScalarFieldEnum = (typeof OrganizationScalarFieldEnum)[k
 export const UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
+  password: 'password',
   name: 'name',
   lastName: 'lastName',
-  password: 'password',
   phone: 'phone',
   role: 'role',
   organizationId: 'organizationId',
@@ -119,31 +120,30 @@ export const InviteScalarFieldEnum = {
 export type InviteScalarFieldEnum = (typeof InviteScalarFieldEnum)[keyof typeof InviteScalarFieldEnum]
 
 
-export const EventScalarFieldEnum = {
+export const ArtistScalarFieldEnum = {
   id: 'id',
-  title: 'title',
-  eventDate: 'eventDate',
-  startTime: 'startTime',
-  endTime: 'endTime',
-  venueName: 'venueName',
+  fullName: 'fullName',
+  stageName: 'stageName',
+  birthDate: 'birthDate',
+  phone: 'phone',
+  email: 'email',
   address: 'address',
   city: 'city',
   state: 'state',
-  fee: 'fee',
-  notes: 'notes',
+  pixKey: 'pixKey',
+  userId: 'userId',
   organizationId: 'organizationId',
-  clientId: 'clientId',
-  artistId: 'artistId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type EventScalarFieldEnum = (typeof EventScalarFieldEnum)[keyof typeof EventScalarFieldEnum]
+export type ArtistScalarFieldEnum = (typeof ArtistScalarFieldEnum)[keyof typeof ArtistScalarFieldEnum]
 
 
 export const ClientScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  companyName: 'companyName',
   phone: 'phone',
   email: 'email',
   organizationId: 'organizationId',
@@ -152,6 +152,31 @@ export const ClientScalarFieldEnum = {
 } as const
 
 export type ClientScalarFieldEnum = (typeof ClientScalarFieldEnum)[keyof typeof ClientScalarFieldEnum]
+
+
+export const EventScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  eventDate: 'eventDate',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  setDuration: 'setDuration',
+  venueName: 'venueName',
+  address: 'address',
+  city: 'city',
+  state: 'state',
+  paymentDate: 'paymentDate',
+  paymentMethod: 'paymentMethod',
+  hasContract: 'hasContract',
+  notes: 'notes',
+  artistId: 'artistId',
+  clientId: 'clientId',
+  organizationId: 'organizationId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type EventScalarFieldEnum = (typeof EventScalarFieldEnum)[keyof typeof EventScalarFieldEnum]
 
 
 export const SortOrder = {

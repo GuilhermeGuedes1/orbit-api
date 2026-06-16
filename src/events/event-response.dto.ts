@@ -1,5 +1,3 @@
-import { Role } from 'src/generated/prisma/enums';
-
 export class EventResponseDto {
   id: string;
 
@@ -32,10 +30,9 @@ export class EventResponseDto {
 
   artist: {
     id: string;
-    name: string;
-    lastName: string;
+    fullName: string;
+    stageName: string;
     email: string;
-    role: Role;
   };
 
   constructor(event: any) {
@@ -60,10 +57,9 @@ export class EventResponseDto {
 
     this.artist = {
       id: event.artist.id,
-      name: event.artist.name,
-      lastName: event.artist.lastName,
+      fullName: event.artist.fullName,
+      stageName: event.artist.stageName,
       email: event.artist.email,
-      role: event.artist.role,
     };
   }
 }

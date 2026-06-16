@@ -1,17 +1,30 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
-import { ArtistsService } from './artists.service';
 import { AuthGuard } from 'src/auth/auth.guards';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { CurrentUserDto } from '../auth/dtos/user.dto';
 import { CurrentUser } from 'src/auth/decorators/user.decorator';
-import { CurrentUserDto } from 'src/auth/dtos/user.dto';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 
+import { ArtistsService } from './artists.service';
+
+@ApiTags('Artists')
 @ApiBearerAuth()
-@UseGuards(AuthGuard)
 @Controller('artists')
+@UseGuards(AuthGuard)
 export class ArtistsController {
-  constructor(private readonly artistService: ArtistsService) {}
+  constructor(private readonly artistsService: ArtistsService) {}
+
   @Get()
-  getArtists(@CurrentUser() user: CurrentUserDto) {
-    return this.artistService.getArtists(user);
+  findAll(@CurrentUser() user: CurrentUserDto) {
+    return this.artistsService.findAll(user);
+  }
+
+  @Get('/me/events')
+  getEvents(@CurrentUser() user: CurrentUserDto) {
+    return this.artistsService.getEvents(user);
+  }
+
+  @Get('me')
+  me(@CurrentUser() user: CurrentUserDto) {
+    return this.artistsService.getMe(user);
   }
 }

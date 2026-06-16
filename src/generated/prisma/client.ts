@@ -55,12 +55,17 @@ export type User = Prisma.UserModel
  */
 export type Invite = Prisma.InviteModel
 /**
- * Model Event
+ * Model Artist
  * 
  */
-export type Event = Prisma.EventModel
+export type Artist = Prisma.ArtistModel
 /**
  * Model Client
  * 
  */
 export type Client = Prisma.ClientModel
+/**
+ * Model Event
+ * 
+ */
+export type Event = Prisma.EventModel
