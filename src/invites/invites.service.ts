@@ -105,7 +105,7 @@ export class InvitesService {
     const passwordHash = await bcrypt.hash(data.password, 10);
 
     await this.prisma.$transaction(async (tx) => {
-      await tx.user.create({
+      const createdUser = await tx.user.create({
         data: {
           name: data.name,
           lastName: data.lastName,
@@ -116,6 +116,19 @@ export class InvitesService {
           organizationId: invite.organizationId,
         },
       });
+
+      if (invite.role === 'ARTIST') {
+        await tx.artist.create({
+          data: {
+            fullName: `${data.name} ${data.lastName}`,
+            stageName: data.stageName ?? `${data.name} ${data.lastName}`,
+            phone: data.phone,
+            email: invite.email,
+            organizationId: invite.organizationId,
+            userId: createdUser.id,
+          },
+        });
+      }
 
       await tx.invite.update({
         where: { id: invite.id },

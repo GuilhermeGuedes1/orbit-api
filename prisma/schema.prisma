@@ -1,11 +1,6 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
   moduleFormat = "cjs"
 }
 
@@ -13,67 +8,11 @@ datasource db {
   provider = "postgresql"
 }
 
-
 enum Role {
   CEO
   ADMIN
   PRODUCER
   ARTIST
-}
-
-model Organization  { 
-  id          String   @id @default(uuid())
-  name        String
-  document    String   @unique
-  email       String   @unique
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  invites     Invite[]
-  users       User[]
-  clients Client[]
-  events  Event[]
-
-}
-
-model User {
-  id             String       @id @default(uuid())
-  email          String       @unique
-  name           String
-  lastName       String
-  password       String
-  phone          String       @unique
-  role           Role         @default(ARTIST)
-
-  organizationId String
-  organization   Organization @relation(fields: [organizationId], references: [id])
-  
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
-
-  createdInvites Invite[]    
-  artistEvents   Event[]      @relation("ArtistEvents")
-}
-
-
-model Invite {
-  id             String       @id @default(uuid())
-  email          String
-  token          String       @unique
-  role           Role
-  status         InviteStatus @default(PENDING)
-
-  organizationId String
-  organization   Organization @relation(fields: [organizationId], references: [id])
-
-  createdById    String
-  createdBy      User         @relation(fields: [createdById], references: [id])
-
-  expiresAt      DateTime
-  acceptedAt     DateTime?
-
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
 }
 
 enum InviteStatus {
@@ -83,41 +22,98 @@ enum InviteStatus {
   CANCELLED
 }
 
-model Event {
-  id String @id @default(uuid())
+enum PaymentMethod {
+  DEPOSIT
+  FULL_ON_EVENT
+  INVOICE
+  INSTALLMENTS
+  PIX
+  CASH
+  OTHER
+}
 
-  title     String
-  eventDate DateTime
-  startTime String?
-  endTime   String?
+model Organization {
+  id       String @id @default(uuid())
+  name     String
+  document String @unique
+  email    String @unique
 
-  venueName String?
-  address   String?
-  city      String?
-  state     String?
-
-  fee   Decimal?
-  notes String?
-
-  organizationId String
-  organization   Organization @relation(fields: [organizationId], references: [id])
-
-  clientId String?
-  client   Client? @relation(fields: [clientId], references: [id])
-
-  artistId String?
-  artist   User? @relation("ArtistEvents", fields: [artistId], references: [id])
+  users   User[]
+  invites Invite[]
+  artists Artist[]
+  clients Client[]
+  events  Event[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model Client {
+model User {
   id String @id @default(uuid())
 
+  email    String @unique
+  password String
+
   name     String
-  phone    String?
-  email    String?
+  lastName String
+
+  phone String @unique
+
+  role Role
+
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+
+  artist Artist?
+
+  invitesCreated Invite[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Invite {
+  id String @id @default(uuid())
+
+  email String
+  token String @unique
+
+  role Role
+
+  status InviteStatus @default(PENDING)
+
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+
+  createdById String
+  createdBy   User   @relation(fields: [createdById], references: [id])
+
+  expiresAt  DateTime
+  acceptedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Artist {
+  id String @id @default(uuid())
+
+  fullName  String
+  stageName String
+
+  birthDate DateTime?
+
+  phone String?
+  email String?
+
+  address String?
+  city    String?
+  state   String?
+
+  pixKey String?
+
+  userId String? @unique
+  user   User?   @relation(fields: [userId], references: [id])
 
   organizationId String
   organization   Organization @relation(fields: [organizationId], references: [id])
@@ -128,3 +124,57 @@ model Client {
   updatedAt DateTime @updatedAt
 }
 
+model Client {
+  id String @id @default(uuid())
+
+  name        String
+  companyName String?
+
+  phone String?
+  email String?
+
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+
+  events Event[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Event {
+  id String @id @default(uuid())
+
+  title String
+
+  eventDate DateTime
+
+  startTime String?
+  endTime   String?
+
+  setDuration String?
+
+  venueName String?
+  address   String?
+  city      String?
+  state     String?
+
+  paymentDate   DateTime?
+  paymentMethod PaymentMethod?
+
+  hasContract Boolean @default(false)
+
+  notes String?
+
+  artistId String?
+  artist   Artist? @relation(fields: [artistId], references: [id])
+
+  clientId String?
+  client   Client? @relation(fields: [clientId], references: [id])
+
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

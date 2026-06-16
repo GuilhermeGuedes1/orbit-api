@@ -7,6 +7,8 @@ import {
   IsString,
   IsUUID,
 } from 'class-validator';
+import { IsBoolean, IsEnum } from 'class-validator';
+import { PaymentMethod } from '../../generated/prisma/client';
 
 export class CreateEventDto {
   @ApiProperty({
@@ -113,4 +115,48 @@ export class CreateEventDto {
   @IsEmail()
   @IsOptional()
   clientEmail?: string;
+
+  @ApiProperty({
+    example: '6h',
+    description: 'Artist set duration',
+    required: false,
+  })
+  @IsString()
+  @IsOptional()
+  setDuration?: string;
+
+  @ApiProperty({
+    example: '2026-12-10',
+    description: 'Payment date',
+    required: false,
+  })
+  @IsDateString()
+  @IsOptional()
+  paymentDate?: string;
+
+  @ApiProperty({
+    enum: PaymentMethod,
+    required: false,
+  })
+  @IsEnum(PaymentMethod)
+  @IsOptional()
+  paymentMethod?: PaymentMethod;
+
+  @ApiProperty({
+    example: true,
+    description: 'Indicates if event has contract',
+    required: false,
+  })
+  @IsBoolean()
+  @IsOptional()
+  hasContract?: boolean;
+
+  @ApiProperty({
+    example: 'Empresa XYZ',
+    description: 'Client company name',
+    required: false,
+  })
+  @IsString()
+  @IsOptional()
+  clientCompanyName?: string;
 }

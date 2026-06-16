@@ -314,7 +314,7 @@ export type InviteCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   organization: Prisma.OrganizationCreateNestedOneWithoutInvitesInput
-  createdBy: Prisma.UserCreateNestedOneWithoutCreatedInvitesInput
+  createdBy: Prisma.UserCreateNestedOneWithoutInvitesCreatedInput
 }
 
 export type InviteUncheckedCreateInput = {
@@ -342,7 +342,7 @@ export type InviteUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutInvitesNestedInput
-  createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedInvitesNestedInput
+  createdBy?: Prisma.UserUpdateOneRequiredWithoutInvitesCreatedNestedInput
 }
 
 export type InviteUncheckedUpdateInput = {
@@ -553,7 +553,7 @@ export type InviteCreateWithoutOrganizationInput = {
   acceptedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  createdBy: Prisma.UserCreateNestedOneWithoutCreatedInvitesInput
+  createdBy: Prisma.UserCreateNestedOneWithoutInvitesCreatedInput
 }
 
 export type InviteUncheckedCreateWithoutOrganizationInput = {
@@ -687,7 +687,7 @@ export type InviteUpdateWithoutOrganizationInput = {
   acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedInvitesNestedInput
+  createdBy?: Prisma.UserUpdateOneRequiredWithoutInvitesCreatedNestedInput
 }
 
 export type InviteUncheckedUpdateWithoutOrganizationInput = {

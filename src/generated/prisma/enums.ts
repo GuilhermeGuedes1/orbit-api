@@ -27,3 +27,16 @@ export const InviteStatus = {
 } as const
 
 export type InviteStatus = (typeof InviteStatus)[keyof typeof InviteStatus]
+
+
+export const PaymentMethod = {
+  DEPOSIT: 'DEPOSIT',
+  FULL_ON_EVENT: 'FULL_ON_EVENT',
+  INVOICE: 'INVOICE',
+  INSTALLMENTS: 'INSTALLMENTS',
+  PIX: 'PIX',
+  CASH: 'CASH',
+  OTHER: 'OTHER'
+} as const
+
+export type PaymentMethod = (typeof PaymentMethod)[keyof typeof PaymentMethod]

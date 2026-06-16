@@ -14,6 +14,7 @@ export class EventsService {
         name: data.clientName,
         phone: data.clientPhone,
         email: data.clientEmail,
+        companyName: data.clientCompanyName,
         organizationId: user.organizationId,
       },
     });
@@ -24,10 +25,14 @@ export class EventsService {
         eventDate: data.eventDate,
         startTime: data.startTime,
         endTime: data.endTime,
+        setDuration: data.setDuration,
         venueName: data.venueName,
         address: data.address,
         city: data.city,
         state: data.state,
+        paymentDate: data.paymentDate,
+        paymentMethod: data.paymentMethod,
+        hasContract: data.hasContract,
         notes: data.notes,
         artistId: data.artistId,
         clientId: client.id,
@@ -38,10 +43,9 @@ export class EventsService {
         artist: {
           select: {
             id: true,
-            name: true,
-            lastName: true,
+            fullName: true,
+            stageName: true,
             email: true,
-            role: true,
           },
         },
       },
@@ -63,10 +67,9 @@ export class EventsService {
         artist: {
           select: {
             id: true,
-            name: true,
-            lastName: true,
+            fullName: true,
+            stageName: true,
             email: true,
-            role: true,
           },
         },
       },
