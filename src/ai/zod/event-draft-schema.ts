@@ -10,11 +10,13 @@ export const EventDraftSchema = z.object({
 
   setDuration: z.string().nullable(),
 
+  status: z.enum(['NEGOTIATING', 'CONFIRMED', 'LOST']).nullable(),
   venueName: z.string().nullable(),
   address: z.string().nullable(),
   city: z.string().nullable(),
   state: z.string().nullable(),
 
+  fee: z.number().nullable(),
   paymentDate: z.string().nullable(),
   paymentMethod: z.string().nullable(),
 

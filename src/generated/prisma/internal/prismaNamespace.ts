@@ -982,6 +982,7 @@ export const EventScalarFieldEnum = {
   city: 'city',
   state: 'state',
   status: 'status',
+  fee: 'fee',
   paymentDate: 'paymentDate',
   paymentMethod: 'paymentMethod',
   hasContract: 'hasContract',
@@ -1093,6 +1094,20 @@ export type EnumEventStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Pris
  * Reference to a field of type 'EventStatus[]'
  */
 export type ListEnumEventStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EventStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Decimal'
+ */
+export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
+    
+
+
+/**
+ * Reference to a field of type 'Decimal[]'
+ */
+export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
     
 
 

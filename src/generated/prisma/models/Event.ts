@@ -20,8 +20,18 @@ export type EventModel = runtime.Types.Result.DefaultSelection<Prisma.$EventPayl
 
 export type AggregateEvent = {
   _count: EventCountAggregateOutputType | null
+  _avg: EventAvgAggregateOutputType | null
+  _sum: EventSumAggregateOutputType | null
   _min: EventMinAggregateOutputType | null
   _max: EventMaxAggregateOutputType | null
+}
+
+export type EventAvgAggregateOutputType = {
+  fee: runtime.Decimal | null
+}
+
+export type EventSumAggregateOutputType = {
+  fee: runtime.Decimal | null
 }
 
 export type EventMinAggregateOutputType = {
@@ -36,6 +46,7 @@ export type EventMinAggregateOutputType = {
   city: string | null
   state: string | null
   status: $Enums.EventStatus | null
+  fee: runtime.Decimal | null
   paymentDate: Date | null
   paymentMethod: $Enums.PaymentMethod | null
   hasContract: boolean | null
@@ -59,6 +70,7 @@ export type EventMaxAggregateOutputType = {
   city: string | null
   state: string | null
   status: $Enums.EventStatus | null
+  fee: runtime.Decimal | null
   paymentDate: Date | null
   paymentMethod: $Enums.PaymentMethod | null
   hasContract: boolean | null
@@ -82,6 +94,7 @@ export type EventCountAggregateOutputType = {
   city: number
   state: number
   status: number
+  fee: number
   paymentDate: number
   paymentMethod: number
   hasContract: number
@@ -95,6 +108,14 @@ export type EventCountAggregateOutputType = {
 }
 
 
+export type EventAvgAggregateInputType = {
+  fee?: true
+}
+
+export type EventSumAggregateInputType = {
+  fee?: true
+}
+
 export type EventMinAggregateInputType = {
   id?: true
   title?: true
@@ -107,6 +128,7 @@ export type EventMinAggregateInputType = {
   city?: true
   state?: true
   status?: true
+  fee?: true
   paymentDate?: true
   paymentMethod?: true
   hasContract?: true
@@ -130,6 +152,7 @@ export type EventMaxAggregateInputType = {
   city?: true
   state?: true
   status?: true
+  fee?: true
   paymentDate?: true
   paymentMethod?: true
   hasContract?: true
@@ -153,6 +176,7 @@ export type EventCountAggregateInputType = {
   city?: true
   state?: true
   status?: true
+  fee?: true
   paymentDate?: true
   paymentMethod?: true
   hasContract?: true
@@ -203,6 +227,18 @@ export type EventAggregateArgs<ExtArgs extends runtime.Types.Extensions.Internal
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: EventAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: EventSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: EventMinAggregateInputType
@@ -233,6 +269,8 @@ export type EventGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   _count?: EventCountAggregateInputType | true
+  _avg?: EventAvgAggregateInputType
+  _sum?: EventSumAggregateInputType
   _min?: EventMinAggregateInputType
   _max?: EventMaxAggregateInputType
 }
@@ -249,6 +287,7 @@ export type EventGroupByOutputType = {
   city: string | null
   state: string | null
   status: $Enums.EventStatus
+  fee: runtime.Decimal | null
   paymentDate: Date | null
   paymentMethod: $Enums.PaymentMethod | null
   hasContract: boolean
@@ -259,6 +298,8 @@ export type EventGroupByOutputType = {
   createdAt: Date
   updatedAt: Date
   _count: EventCountAggregateOutputType | null
+  _avg: EventAvgAggregateOutputType | null
+  _sum: EventSumAggregateOutputType | null
   _min: EventMinAggregateOutputType | null
   _max: EventMaxAggregateOutputType | null
 }
@@ -293,6 +334,7 @@ export type EventWhereInput = {
   city?: Prisma.StringNullableFilter<"Event"> | string | null
   state?: Prisma.StringNullableFilter<"Event"> | string | null
   status?: Prisma.EnumEventStatusFilter<"Event"> | $Enums.EventStatus
+  fee?: Prisma.DecimalNullableFilter<"Event"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentDate?: Prisma.DateTimeNullableFilter<"Event"> | Date | string | null
   paymentMethod?: Prisma.EnumPaymentMethodNullableFilter<"Event"> | $Enums.PaymentMethod | null
   hasContract?: Prisma.BoolFilter<"Event"> | boolean
@@ -319,6 +361,7 @@ export type EventOrderByWithRelationInput = {
   city?: Prisma.SortOrderInput | Prisma.SortOrder
   state?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  fee?: Prisma.SortOrderInput | Prisma.SortOrder
   paymentDate?: Prisma.SortOrderInput | Prisma.SortOrder
   paymentMethod?: Prisma.SortOrderInput | Prisma.SortOrder
   hasContract?: Prisma.SortOrder
@@ -349,6 +392,7 @@ export type EventWhereUniqueInput = Prisma.AtLeast<{
   city?: Prisma.StringNullableFilter<"Event"> | string | null
   state?: Prisma.StringNullableFilter<"Event"> | string | null
   status?: Prisma.EnumEventStatusFilter<"Event"> | $Enums.EventStatus
+  fee?: Prisma.DecimalNullableFilter<"Event"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentDate?: Prisma.DateTimeNullableFilter<"Event"> | Date | string | null
   paymentMethod?: Prisma.EnumPaymentMethodNullableFilter<"Event"> | $Enums.PaymentMethod | null
   hasContract?: Prisma.BoolFilter<"Event"> | boolean
@@ -375,6 +419,7 @@ export type EventOrderByWithAggregationInput = {
   city?: Prisma.SortOrderInput | Prisma.SortOrder
   state?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  fee?: Prisma.SortOrderInput | Prisma.SortOrder
   paymentDate?: Prisma.SortOrderInput | Prisma.SortOrder
   paymentMethod?: Prisma.SortOrderInput | Prisma.SortOrder
   hasContract?: Prisma.SortOrder
@@ -385,8 +430,10 @@ export type EventOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.EventCountOrderByAggregateInput
+  _avg?: Prisma.EventAvgOrderByAggregateInput
   _max?: Prisma.EventMaxOrderByAggregateInput
   _min?: Prisma.EventMinOrderByAggregateInput
+  _sum?: Prisma.EventSumOrderByAggregateInput
 }
 
 export type EventScalarWhereWithAggregatesInput = {
@@ -404,6 +451,7 @@ export type EventScalarWhereWithAggregatesInput = {
   city?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null
   state?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null
   status?: Prisma.EnumEventStatusWithAggregatesFilter<"Event"> | $Enums.EventStatus
+  fee?: Prisma.DecimalNullableWithAggregatesFilter<"Event"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Event"> | Date | string | null
   paymentMethod?: Prisma.EnumPaymentMethodNullableWithAggregatesFilter<"Event"> | $Enums.PaymentMethod | null
   hasContract?: Prisma.BoolWithAggregatesFilter<"Event"> | boolean
@@ -427,6 +475,7 @@ export type EventCreateInput = {
   city?: string | null
   state?: string | null
   status?: $Enums.EventStatus
+  fee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentDate?: Date | string | null
   paymentMethod?: $Enums.PaymentMethod | null
   hasContract?: boolean
@@ -450,6 +499,7 @@ export type EventUncheckedCreateInput = {
   city?: string | null
   state?: string | null
   status?: $Enums.EventStatus
+  fee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentDate?: Date | string | null
   paymentMethod?: $Enums.PaymentMethod | null
   hasContract?: boolean
@@ -473,6 +523,7 @@ export type EventUpdateInput = {
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  fee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   hasContract?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -496,6 +547,7 @@ export type EventUncheckedUpdateInput = {
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  fee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   hasContract?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -519,6 +571,7 @@ export type EventCreateManyInput = {
   city?: string | null
   state?: string | null
   status?: $Enums.EventStatus
+  fee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentDate?: Date | string | null
   paymentMethod?: $Enums.PaymentMethod | null
   hasContract?: boolean
@@ -542,6 +595,7 @@ export type EventUpdateManyMutationInput = {
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  fee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   hasContract?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -562,6 +616,7 @@ export type EventUncheckedUpdateManyInput = {
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  fee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   hasContract?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -602,6 +657,7 @@ export type EventCountOrderByAggregateInput = {
   city?: Prisma.SortOrder
   state?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  fee?: Prisma.SortOrder
   paymentDate?: Prisma.SortOrder
   paymentMethod?: Prisma.SortOrder
   hasContract?: Prisma.SortOrder
@@ -611,6 +667,10 @@ export type EventCountOrderByAggregateInput = {
   organizationId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type EventAvgOrderByAggregateInput = {
+  fee?: Prisma.SortOrder
 }
 
 export type EventMaxOrderByAggregateInput = {
@@ -625,6 +685,7 @@ export type EventMaxOrderByAggregateInput = {
   city?: Prisma.SortOrder
   state?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  fee?: Prisma.SortOrder
   paymentDate?: Prisma.SortOrder
   paymentMethod?: Prisma.SortOrder
   hasContract?: Prisma.SortOrder
@@ -648,6 +709,7 @@ export type EventMinOrderByAggregateInput = {
   city?: Prisma.SortOrder
   state?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  fee?: Prisma.SortOrder
   paymentDate?: Prisma.SortOrder
   paymentMethod?: Prisma.SortOrder
   hasContract?: Prisma.SortOrder
@@ -657,6 +719,10 @@ export type EventMinOrderByAggregateInput = {
   organizationId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type EventSumOrderByAggregateInput = {
+  fee?: Prisma.SortOrder
 }
 
 export type EventCreateNestedManyWithoutOrganizationInput = {
@@ -789,6 +855,14 @@ export type EnumEventStatusFieldUpdateOperationsInput = {
   set?: $Enums.EventStatus
 }
 
+export type NullableDecimalFieldUpdateOperationsInput = {
+  set?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
+}
+
 export type NullableEnumPaymentMethodFieldUpdateOperationsInput = {
   set?: $Enums.PaymentMethod | null
 }
@@ -809,6 +883,7 @@ export type EventCreateWithoutOrganizationInput = {
   city?: string | null
   state?: string | null
   status?: $Enums.EventStatus
+  fee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentDate?: Date | string | null
   paymentMethod?: $Enums.PaymentMethod | null
   hasContract?: boolean
@@ -831,6 +906,7 @@ export type EventUncheckedCreateWithoutOrganizationInput = {
   city?: string | null
   state?: string | null
   status?: $Enums.EventStatus
+  fee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentDate?: Date | string | null
   paymentMethod?: $Enums.PaymentMethod | null
   hasContract?: boolean
@@ -882,6 +958,7 @@ export type EventScalarWhereInput = {
   city?: Prisma.StringNullableFilter<"Event"> | string | null
   state?: Prisma.StringNullableFilter<"Event"> | string | null
   status?: Prisma.EnumEventStatusFilter<"Event"> | $Enums.EventStatus
+  fee?: Prisma.DecimalNullableFilter<"Event"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentDate?: Prisma.DateTimeNullableFilter<"Event"> | Date | string | null
   paymentMethod?: Prisma.EnumPaymentMethodNullableFilter<"Event"> | $Enums.PaymentMethod | null
   hasContract?: Prisma.BoolFilter<"Event"> | boolean
@@ -905,6 +982,7 @@ export type EventCreateWithoutArtistInput = {
   city?: string | null
   state?: string | null
   status?: $Enums.EventStatus
+  fee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentDate?: Date | string | null
   paymentMethod?: $Enums.PaymentMethod | null
   hasContract?: boolean
@@ -927,6 +1005,7 @@ export type EventUncheckedCreateWithoutArtistInput = {
   city?: string | null
   state?: string | null
   status?: $Enums.EventStatus
+  fee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentDate?: Date | string | null
   paymentMethod?: $Enums.PaymentMethod | null
   hasContract?: boolean
@@ -975,6 +1054,7 @@ export type EventCreateWithoutClientInput = {
   city?: string | null
   state?: string | null
   status?: $Enums.EventStatus
+  fee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentDate?: Date | string | null
   paymentMethod?: $Enums.PaymentMethod | null
   hasContract?: boolean
@@ -997,6 +1077,7 @@ export type EventUncheckedCreateWithoutClientInput = {
   city?: string | null
   state?: string | null
   status?: $Enums.EventStatus
+  fee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentDate?: Date | string | null
   paymentMethod?: $Enums.PaymentMethod | null
   hasContract?: boolean
@@ -1045,6 +1126,7 @@ export type EventCreateManyOrganizationInput = {
   city?: string | null
   state?: string | null
   status?: $Enums.EventStatus
+  fee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentDate?: Date | string | null
   paymentMethod?: $Enums.PaymentMethod | null
   hasContract?: boolean
@@ -1067,6 +1149,7 @@ export type EventUpdateWithoutOrganizationInput = {
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  fee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   hasContract?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1089,6 +1172,7 @@ export type EventUncheckedUpdateWithoutOrganizationInput = {
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  fee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   hasContract?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1111,6 +1195,7 @@ export type EventUncheckedUpdateManyWithoutOrganizationInput = {
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  fee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   hasContract?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1133,6 +1218,7 @@ export type EventCreateManyArtistInput = {
   city?: string | null
   state?: string | null
   status?: $Enums.EventStatus
+  fee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentDate?: Date | string | null
   paymentMethod?: $Enums.PaymentMethod | null
   hasContract?: boolean
@@ -1155,6 +1241,7 @@ export type EventUpdateWithoutArtistInput = {
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  fee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   hasContract?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1177,6 +1264,7 @@ export type EventUncheckedUpdateWithoutArtistInput = {
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  fee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   hasContract?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1199,6 +1287,7 @@ export type EventUncheckedUpdateManyWithoutArtistInput = {
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  fee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   hasContract?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1221,6 +1310,7 @@ export type EventCreateManyClientInput = {
   city?: string | null
   state?: string | null
   status?: $Enums.EventStatus
+  fee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentDate?: Date | string | null
   paymentMethod?: $Enums.PaymentMethod | null
   hasContract?: boolean
@@ -1243,6 +1333,7 @@ export type EventUpdateWithoutClientInput = {
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  fee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   hasContract?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1265,6 +1356,7 @@ export type EventUncheckedUpdateWithoutClientInput = {
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  fee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   hasContract?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1287,6 +1379,7 @@ export type EventUncheckedUpdateManyWithoutClientInput = {
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumEventStatusFieldUpdateOperationsInput | $Enums.EventStatus
+  fee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   paymentMethod?: Prisma.NullableEnumPaymentMethodFieldUpdateOperationsInput | $Enums.PaymentMethod | null
   hasContract?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1311,6 +1404,7 @@ export type EventSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   city?: boolean
   state?: boolean
   status?: boolean
+  fee?: boolean
   paymentDate?: boolean
   paymentMethod?: boolean
   hasContract?: boolean
@@ -1337,6 +1431,7 @@ export type EventSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   city?: boolean
   state?: boolean
   status?: boolean
+  fee?: boolean
   paymentDate?: boolean
   paymentMethod?: boolean
   hasContract?: boolean
@@ -1363,6 +1458,7 @@ export type EventSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   city?: boolean
   state?: boolean
   status?: boolean
+  fee?: boolean
   paymentDate?: boolean
   paymentMethod?: boolean
   hasContract?: boolean
@@ -1389,6 +1485,7 @@ export type EventSelectScalar = {
   city?: boolean
   state?: boolean
   status?: boolean
+  fee?: boolean
   paymentDate?: boolean
   paymentMethod?: boolean
   hasContract?: boolean
@@ -1400,7 +1497,7 @@ export type EventSelectScalar = {
   updatedAt?: boolean
 }
 
-export type EventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "eventDate" | "startTime" | "endTime" | "setDuration" | "venueName" | "address" | "city" | "state" | "status" | "paymentDate" | "paymentMethod" | "hasContract" | "notes" | "artistId" | "clientId" | "organizationId" | "createdAt" | "updatedAt", ExtArgs["result"]["event"]>
+export type EventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "eventDate" | "startTime" | "endTime" | "setDuration" | "venueName" | "address" | "city" | "state" | "status" | "fee" | "paymentDate" | "paymentMethod" | "hasContract" | "notes" | "artistId" | "clientId" | "organizationId" | "createdAt" | "updatedAt", ExtArgs["result"]["event"]>
 export type EventInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   artist?: boolean | Prisma.Event$artistArgs<ExtArgs>
   client?: boolean | Prisma.Event$clientArgs<ExtArgs>
@@ -1436,6 +1533,7 @@ export type $EventPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     city: string | null
     state: string | null
     status: $Enums.EventStatus
+    fee: runtime.Decimal | null
     paymentDate: Date | null
     paymentMethod: $Enums.PaymentMethod | null
     hasContract: boolean
@@ -1882,6 +1980,7 @@ export interface EventFieldRefs {
   readonly city: Prisma.FieldRef<"Event", 'String'>
   readonly state: Prisma.FieldRef<"Event", 'String'>
   readonly status: Prisma.FieldRef<"Event", 'EventStatus'>
+  readonly fee: Prisma.FieldRef<"Event", 'Decimal'>
   readonly paymentDate: Prisma.FieldRef<"Event", 'DateTime'>
   readonly paymentMethod: Prisma.FieldRef<"Event", 'PaymentMethod'>
   readonly hasContract: Prisma.FieldRef<"Event", 'Boolean'>
