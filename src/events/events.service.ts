@@ -83,6 +83,7 @@ export class EventsService {
           city: data.city,
           state: data.state,
           status: data.status ?? EventStatus.NEGOTIATING,
+          fee: data.fee,
           paymentMethod: data.paymentMethod,
           hasContract: data.hasContract,
           notes: data.notes,

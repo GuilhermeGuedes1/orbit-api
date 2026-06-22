@@ -1,4 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import {
   IsDateString,
   IsEmail,
@@ -6,6 +7,7 @@ import {
   IsOptional,
   IsString,
   IsUUID,
+  IsNumber,
 } from 'class-validator';
 import { IsBoolean, IsEnum } from 'class-validator';
 import { PaymentMethod } from '../../generated/prisma/client';
@@ -33,21 +35,13 @@ export class CreateEventDto {
   @IsDateString()
   eventDate!: string;
 
-  @ApiProperty({
-    example: '18:00',
-    description: 'Scheduled start time in 24-hour HH:mm format.',
-  })
   @IsString()
-  @IsNotEmpty()
-  startTime!: string;
+  @IsOptional()
+  startTime?: string;
 
-  @ApiProperty({
-    example: '23:00',
-    description: 'Scheduled end time in 24-hour HH:mm format.',
-  })
   @IsString()
-  @IsNotEmpty()
-  endTime!: string;
+  @IsOptional()
+  endTime?: string;
 
   @ApiProperty({
     example: 'Copacabana Palace',
@@ -128,6 +122,15 @@ export class CreateEventDto {
   @IsString()
   @IsOptional()
   setDuration?: string;
+
+  @ApiPropertyOptional({
+    example: 1000.0,
+    description: 'Expected money value',
+  })
+  @Type(() => Number)
+  @IsNumber()
+  @IsOptional()
+  fee?: number;
 
   @ApiPropertyOptional({
     example: '2026-12-10',

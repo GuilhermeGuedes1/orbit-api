@@ -33,6 +33,12 @@ export class AiService {
     - hasContract deve ser true ou false.
     - Quando uma informação não existir, retorne null.
     - Responda APENAS JSON válido.
+    - startTime representa o horário de início do set do artista/DJ, não necessariamente o início do evento.
+    - endTime representa o horário final do set do artista/DJ, não necessariamente o fim do evento.
+    - Se o texto informar o horário de início do set e a duração, calcule o endTime.
+    - Exemplo: "2h de set começando meia-noite" => startTime: "00:00", endTime: "02:00", setDuration: "2h".
+    - Se o texto informar somente a duração, mas não informar o horário de início do set, retorne startTime null e endTime null.
+    - Se o texto informar somente horário geral do evento, mas não deixar claro o horário do set, retorne startTime null e endTime null e coloque o horário geral em notes.
 
 
 
@@ -40,28 +46,30 @@ export class AiService {
     Texto:
     ${text}
 
-    Formato esperado:
-      {
-        "title": string | null,
-        "eventDate": string | null,
-        "startTime": string | null,
-        "endTime": string | null,
-        "setDuration": string | null,
-        "venueName": string | null,
-        "address": string | null,
-        "city": string | null,
-        "state": string | null,
-        "paymentDate": string | null,
-        "paymentMethod": string | null,
-        "hasContract": boolean | null,
-        "notes": string | null,
-        "artistName": string | null,
-        "clientName": string | null,
-        "clientPhone": string | null,
-        "clientEmail": string | null,
-        "clientCompanyName": string | null
+      Formato esperado:
+    {
+      "title": string | null,
+      "eventDate": string | null,
+      "startTime": string | null,
+      "endTime": string | null,
+      "setDuration": string | null,
+      "venueName": string | null,
+      "address": string | null,
+      "city": string | null,
+      "state": string | null,
+      "fee": number | null,
+      "paymentDate": string | null,
+      "paymentMethod": string | null,
+      "hasContract": boolean | null,
+      "status": "NEGOTIATING" | "CONFIRMED" | "LOST" | null,
+      "notes": string | null,
+      "artistName": string | null,
+      "clientName": string | null,
+      "clientPhone": string | null,
+      "clientEmail": string | null,
+      "clientCompanyName": string | null
     }
-      `,
+          `,
     });
 
     const rawText = response.text;

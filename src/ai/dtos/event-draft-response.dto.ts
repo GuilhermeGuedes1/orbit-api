@@ -66,6 +66,13 @@ export class EventDraftResponseDto {
   state!: string | null;
 
   @ApiPropertyOptional({
+    example: 1500,
+    nullable: true,
+    description: 'Suggested artist fee/cache value extracted from the prompt.',
+  })
+  fee!: number | null;
+
+  @ApiPropertyOptional({
     example: '2026-12-10',
     nullable: true,
     description: 'Suggested payment date in YYYY-MM-DD format.',
