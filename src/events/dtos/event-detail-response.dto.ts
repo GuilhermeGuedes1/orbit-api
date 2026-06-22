@@ -71,6 +71,9 @@ export class EventDetailsResponseDto {
   @ApiProperty()
   state: string;
 
+  @ApiProperty()
+  fee?: number | null;
+
   @ApiProperty({
     enum: EventStatus,
     enumName: 'EventStatus',
@@ -113,6 +116,7 @@ export class EventDetailsResponseDto {
     this.status = event.status;
 
     this.setDuration = event.setDuration;
+    this.fee = event.fee;
     this.paymentDate = event.paymentDate;
     this.paymentMethod = event.paymentMethod;
     this.hasContract = event.hasContract;

@@ -10,6 +10,7 @@ import { CurrentUserDto } from 'src/auth/dtos/user.dto';
 import { EventResponseDto } from './event-response.dto';
 import { EventDetailsResponseDto } from './dtos/event-detail-response.dto';
 import { EventStatus } from '../generated/prisma/client';
+import { UpdateEventDto } from './dtos/update-event.dto';
 
 @Injectable()
 export class EventsService {
@@ -170,5 +171,82 @@ export class EventsService {
     }
 
     return new EventDetailsResponseDto(event);
+  }
+
+  async updateEvent(id: string, data: UpdateEventDto, user: CurrentUserDto) {
+    const event = await this.prisma.event.findFirst({
+      where: {
+        id,
+        organizationId: user.organizationId,
+      },
+    });
+
+    if (!event) {
+      throw new BadRequestException("Event doesn't exist");
+    }
+
+    const {
+      artistId,
+      clientName,
+      clientPhone,
+      clientEmail,
+      clientCompanyName,
+      ...eventData
+    } = data;
+
+    if (event.clientId) {
+      await this.prisma.client.update({
+        where: {
+          id: event.clientId,
+        },
+        data: {
+          name: clientName,
+          phone: clientPhone,
+          email: clientEmail,
+          companyName: clientCompanyName,
+        },
+      });
+    }
+
+    const updatedEvent = await this.prisma.event.update({
+      where: {
+        id,
+      },
+      data: {
+        ...eventData,
+
+        eventDate: data.eventDate
+          ? this.parseRequiredDateOnly(data.eventDate)
+          : undefined,
+
+        paymentDate: data.paymentDate
+          ? this.parseOptionalDateOnly(data.paymentDate)
+          : undefined,
+
+        artist: artistId
+          ? {
+              connect: {
+                id: artistId,
+              },
+            }
+          : undefined,
+      },
+      include: {
+        client: true,
+        artist: {
+          select: {
+            id: true,
+            name: true,
+            stageName: true,
+            email: true,
+          },
+        },
+      },
+    });
+
+    return {
+      message: 'Event updated successfully',
+      event: new EventResponseDto(updatedEvent),
+    };
   }
 }

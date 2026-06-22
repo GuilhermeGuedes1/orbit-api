@@ -1,10 +1,19 @@
-import { Controller, Post, UseGuards, Body, Get, Param } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  UseGuards,
+  Body,
+  Get,
+  Param,
+  Patch,
+} from '@nestjs/common';
 import { EventsService } from './events.service';
 import { AuthGuard } from 'src/auth/auth.guards';
 import { CreateEventDto } from './dtos/create-event.dto';
 import { CurrentUser } from 'src/auth/decorators/user.decorator';
 import { CurrentUserDto } from 'src/auth/dtos/user.dto';
 import { CreateEventResponseDto, EventResponseDto } from './event-response.dto';
+import { UpdateEventDto } from './dtos/update-event.dto';
 import {
   ApiBearerAuth,
   ApiBadRequestResponse,
@@ -70,5 +79,14 @@ export class EventsController {
   @Get(':id')
   getEventById(@Param('id') id: string, @CurrentUser() user: CurrentUserDto) {
     return this.eventsService.getEventById(id, user);
+  }
+
+  @Patch(':id')
+  updateEvent(
+    @Param('id') id: string,
+    @Body() data: UpdateEventDto,
+    @CurrentUser() user: CurrentUserDto,
+  ) {
+    return this.eventsService.updateEvent(id, data, user);
   }
 }
