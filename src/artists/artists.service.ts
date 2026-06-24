@@ -78,4 +78,19 @@ export class ArtistsService {
 
     return events.map((event) => new EventResponseDto(event));
   }
+
+  async getArtistById(id: string, user: CurrentUserDto) {
+    const artist = await this.prisma.artist.findFirst({
+      where: {
+        organizationId: user.organizationId,
+        id,
+      },
+    });
+
+    if (!artist) {
+      throw new NotFoundException('Artist profile not found');
+    }
+
+    return new ArtistResponseDto(artist);
+  }
 }
