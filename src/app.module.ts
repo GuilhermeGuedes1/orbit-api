@@ -8,6 +8,7 @@ import { EventsModule } from './events/events.module';
 import { ClientsModule } from './clients/clients.module';
 import { AiModule } from './ai/ai.module';
 import { ArtistsModule } from './artists/artists.module';
+import { HealthModuleModule } from './health-module/health-module.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { ArtistsModule } from './artists/artists.module';
     ClientsModule,
     AiModule,
     ArtistsModule,
+    HealthModuleModule,
   ],
   controllers: [],
   providers: [PrismaService],

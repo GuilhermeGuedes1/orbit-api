@@ -24,4 +24,10 @@ jobs:
             git pull origin main
             sudo docker ps -aq --filter "name=orbit-api" | xargs -r sudo docker rm -f
             sudo docker-compose up -d --build
+
+            echo "Waiting for API to start..."
+            sleep 15
+
+            curl --fail http://localhost:3000/health
+
             sudo docker-compose ps
