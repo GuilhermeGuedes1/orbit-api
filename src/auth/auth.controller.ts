@@ -30,6 +30,7 @@ import {
   LoginResponseDto,
   RegisterResponseDto,
 } from './dtos/auth-response.dto';
+import { MeResponseDto } from './dtos/me-response.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -87,13 +88,13 @@ export class AuthController {
   })
   @ApiOkResponse({
     description: 'Returns the authenticated user profile.',
-    type: CurrentUserDto,
+    type: MeResponseDto,
   })
   @ApiUnauthorizedResponse({ description: 'Missing or invalid bearer token.' })
   @UseGuards(AuthGuard)
-  @Get('profile')
-  getProfile(@CurrentUser() user: CurrentUserDto) {
-    return this.authService.getProfile(user);
+  @Get('me')
+  getMe(@CurrentUser() user: CurrentUserDto) {
+    return this.authService.getMe(user);
   }
 
   @ApiBearerAuth()
@@ -116,12 +117,12 @@ export class AuthController {
 
   @ApiBearerAuth()
   @ApiOperation({
-  summary: 'Update authenticated user account',
-  description: 'Updates basic account data for the authenticated user.',
+    summary: 'Update authenticated user account',
+    description: 'Updates basic account data for the authenticated user.',
   })
   @ApiOkResponse({
-  description: 'User account updated successfully.',
-  type: UserResponseDto,
+    description: 'User account updated successfully.',
+    type: UserResponseDto,
   })
   @ApiUnauthorizedResponse({ description: 'Missing or invalid bearer token.' })
   @UseGuards(AuthGuard)
@@ -129,5 +130,4 @@ export class AuthController {
   updateMe(@CurrentUser() user: CurrentUserDto, @Body() body: UpdateMeDto) {
     return this.authService.updateMe(user, body);
   }
-
 }

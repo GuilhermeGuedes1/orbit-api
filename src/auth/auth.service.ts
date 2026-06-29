@@ -12,7 +12,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UserResponseDto } from './dtos/users-response.dto';
 import { CurrentUserDto } from './dtos/user.dto';
 import { UpdateMeDto } from './dtos/update-me.dto';
-
+import { MeResponseDto } from './dtos/me-response.dto';
 
 @Injectable()
 export class AuthService {
@@ -108,7 +108,7 @@ export class AuthService {
   async login(data: LoginDto): Promise<{ access_token: string }> {
     const user = await this.prisma.user.findUnique({
       where: { email: data.email },
-     include: {
+      include: {
         organization: {
           select: {
             name: true,
@@ -145,7 +145,7 @@ export class AuthService {
     return { access_token: await this.jwt.signAsync(payload) };
   }
 
-  async getProfile(currentUser: CurrentUserDto) {
+  async getMe(currentUser: CurrentUserDto) {
     const user = await this.prisma.user.findUnique({
       where: {
         id: currentUser.sub,
@@ -167,11 +167,11 @@ export class AuthService {
     if (!user) {
       throw new UnauthorizedException('User not found');
     }
-
-    return new CurrentUserDto({
-      sub: user.id,
+    return new MeResponseDto({
+      id: user.id,
       name: user.name,
       email: user.email,
+      phone: user.phone,
       role: user.role,
       organizationId: user.organizationId,
       organizationName: user.organization.name,
@@ -192,5 +192,4 @@ export class AuthService {
 
     return new UserResponseDto(updatedUser);
   }
-
 }

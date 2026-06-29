@@ -234,6 +234,7 @@ export class ArtistsService {
         name: data.name,
         stageName: data.stageName,
         phone: data.phone,
+        birthDate: data.birthDate ? new Date(data.birthDate) : undefined,
         address: data.address,
         city: data.city,
         state: data.state,
@@ -246,5 +247,4 @@ export class ArtistsService {
       artist: new ArtistResponseDto(updatedArtist),
     };
   }
-
 }

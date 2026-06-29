@@ -1,5 +1,5 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsOptional, IsString } from 'class-validator';
+import { IsOptional, IsString, IsDateString } from 'class-validator';
 
 export class UpdateArtistDto {
   @ApiPropertyOptional({
@@ -26,6 +26,15 @@ export class UpdateArtistDto {
   @IsOptional()
   @IsString()
   phone?: string | null;
+
+  @ApiPropertyOptional({
+    example: '1995-04-12',
+    nullable: true,
+    description: 'Artist birth date.',
+  })
+  @IsOptional()
+  @IsDateString()
+  birthDate?: string | null;
 
   @ApiPropertyOptional({
     example: 'Rua das Palmeiras, 100',
