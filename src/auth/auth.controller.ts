@@ -5,6 +5,7 @@ import {
   Post,
   UseGuards,
   Request,
+  Patch,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dtos/register.dto';
@@ -13,6 +14,7 @@ import { AuthGuard } from './auth.guards';
 import { CurrentUser } from './decorators/user.decorator';
 import { CurrentUserDto } from './dtos/user.dto';
 import { UserResponseDto } from './dtos/users-response.dto';
+import { UpdateMeDto } from './dtos/update-me.dto';
 import {
   ApiBearerAuth,
   ApiBody,
@@ -91,7 +93,7 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Get('profile')
   getProfile(@CurrentUser() user: CurrentUserDto) {
-    return new CurrentUserDto(user);
+    return this.authService.getProfile(user);
   }
 
   @ApiBearerAuth()
@@ -111,4 +113,21 @@ export class AuthController {
   getUsers(@CurrentUser() user: CurrentUserDto) {
     return this.authService.getUsers(user.organizationId);
   }
+
+  @ApiBearerAuth()
+  @ApiOperation({
+  summary: 'Update authenticated user account',
+  description: 'Updates basic account data for the authenticated user.',
+  })
+  @ApiOkResponse({
+  description: 'User account updated successfully.',
+  type: UserResponseDto,
+  })
+  @ApiUnauthorizedResponse({ description: 'Missing or invalid bearer token.' })
+  @UseGuards(AuthGuard)
+  @Patch('me')
+  updateMe(@CurrentUser() user: CurrentUserDto, @Body() body: UpdateMeDto) {
+    return this.authService.updateMe(user, body);
+  }
+
 }

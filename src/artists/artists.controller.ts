@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Patch, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guards';
 import { CurrentUserDto } from '../auth/dtos/user.dto';
 import { CurrentUser } from 'src/auth/decorators/user.decorator';
@@ -15,11 +23,11 @@ import { ArtistsService } from './artists.service';
 import { ArtistResponseDto } from './dtos/artist-response.dto';
 import { EventResponseDto } from './dtos/event-response.dto';
 import { UpdateArtistDto } from './dtos/update-artist-dto';
+import { RegisterArtistDto } from './dtos/register-artist.dto';
 
 @ApiTags('Artists')
 @ApiBearerAuth()
 @Controller('artists')
-@UseGuards(AuthGuard)
 export class ArtistsController {
   constructor(private readonly artistsService: ArtistsService) {}
 
@@ -34,6 +42,7 @@ export class ArtistsController {
     isArray: true,
   })
   @ApiUnauthorizedResponse({ description: 'Missing or invalid bearer token.' })
+  @UseGuards(AuthGuard)
   @Get()
   findAll(@CurrentUser() user: CurrentUserDto) {
     return this.artistsService.findAll(user);
@@ -53,6 +62,7 @@ export class ArtistsController {
   @ApiNotFoundResponse({
     description: 'The authenticated user does not have an artist profile.',
   })
+  @UseGuards(AuthGuard)
   @Get('/me/events')
   getEvents(@CurrentUser() user: CurrentUserDto) {
     return this.artistsService.getEvents(user);
@@ -71,9 +81,20 @@ export class ArtistsController {
   @ApiNotFoundResponse({
     description: 'The authenticated user does not have an artist profile.',
   })
+  @UseGuards(AuthGuard)
   @Get('me')
   me(@CurrentUser() user: CurrentUserDto) {
     return this.artistsService.getMe(user);
+  }
+
+    
+  @UseGuards(AuthGuard)
+  @Patch('me')
+  updateMe(
+  @Body() data: UpdateArtistDto,
+  @CurrentUser() user: CurrentUserDto,
+  ) {
+    return this.artistsService.updateMe(data, user);
   }
 
   @ApiOperation({
@@ -87,11 +108,13 @@ export class ArtistsController {
   @ApiNotFoundResponse({
     description: 'The authenticated user does not have an artist profile.',
   })
+  @UseGuards(AuthGuard)
   @Get(':id')
   getArtistById(@Param('id') id: string, @CurrentUser() user: CurrentUserDto) {
     return this.artistsService.getArtistById(id, user);
   }
 
+  @UseGuards(AuthGuard)
   @Patch(':id')
   updateArtist(
     @Param('id') id: string,
@@ -100,4 +123,15 @@ export class ArtistsController {
   ) {
     return this.artistsService.updateArtist(id, data, user);
   }
+
+  @ApiOperation({
+    summary: 'Register an independent Artist account',
+    description:
+      'Creates a new organization, CEO user and artist profile in a single transaction.',
+  })
+  @Post('register')
+  registerArtist(@Body() data: RegisterArtistDto) {
+    return this.artistsService.registerArtist(data);
+  }
+  
 }

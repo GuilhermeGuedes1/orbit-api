@@ -10,6 +10,9 @@ import { RegisterDto } from './dtos/register.dto';
 import { LoginDto } from './dtos/login.dto';
 import { JwtService } from '@nestjs/jwt';
 import { UserResponseDto } from './dtos/users-response.dto';
+import { CurrentUserDto } from './dtos/user.dto';
+import { UpdateMeDto } from './dtos/update-me.dto';
+
 
 @Injectable()
 export class AuthService {
@@ -105,10 +108,15 @@ export class AuthService {
   async login(data: LoginDto): Promise<{ access_token: string }> {
     const user = await this.prisma.user.findUnique({
       where: { email: data.email },
-      include: {
+     include: {
         organization: {
           select: {
             name: true,
+          },
+        },
+        artist: {
+          select: {
+            id: true,
           },
         },
       },
@@ -131,8 +139,58 @@ export class AuthService {
       role: user.role,
       organizationId: user.organizationId,
       organizationName: user.organization.name,
+      artistId: user.artist?.id ?? null,
     };
 
     return { access_token: await this.jwt.signAsync(payload) };
   }
+
+  async getProfile(currentUser: CurrentUserDto) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: currentUser.sub,
+      },
+      include: {
+        organization: {
+          select: {
+            name: true,
+          },
+        },
+        artist: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+
+    return new CurrentUserDto({
+      sub: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      organizationId: user.organizationId,
+      organizationName: user.organization.name,
+      artistId: user.artist?.id ?? null,
+    });
+  }
+
+  async updateMe(currentUser: CurrentUserDto, data: UpdateMeDto) {
+    const updatedUser = await this.prisma.user.update({
+      where: {
+        id: currentUser.sub,
+      },
+      data: {
+        name: data.name,
+        phone: data.phone,
+      },
+    });
+
+    return new UserResponseDto(updatedUser);
+  }
+
 }
