@@ -1,45 +1,57 @@
-import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsOptional, IsString, IsDateString } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import {
+  IsDateString,
+  IsEmail,
+  IsOptional,
+  IsString,
+  MinLength,
+} from 'class-validator';
 
-export class UpdateArtistDto {
-  @ApiPropertyOptional({
+export class RegisterArtistDto {
+  @ApiProperty({
     example: 'Joao Pereira',
-    description: 'Artist full legal or registration name.',
   })
-  @IsOptional()
   @IsString()
-  name?: string;
+  name!: string;
 
   @ApiPropertyOptional({
-    example: 'DJ Orbit',
-    description: 'Artist public stage name.',
+    example: 'DJ Pereira',
   })
   @IsOptional()
   @IsString()
   stageName?: string;
 
-  @ApiPropertyOptional({
-    example: '+5521999999999',
-    nullable: true,
-    description: 'Artist phone number.',
+  @ApiProperty({
+    example: 'joao@email.com',
   })
-  @IsOptional()
+  @IsEmail()
+  email!: string;
+
+  @ApiProperty({
+    example: '12345678',
+  })
   @IsString()
-  phone?: string | null;
+  @MinLength(6)
+  password!: string;
 
   @ApiPropertyOptional({
     example: '1995-04-12',
     nullable: true,
-    description: 'Artist birth date.',
   })
   @IsOptional()
   @IsDateString()
   birthDate?: string | null;
 
+  @ApiProperty({
+    example: '+5521999999999',
+    description: 'Artist phone number.',
+  })
+  @IsString()
+  phone!: string;
+
   @ApiPropertyOptional({
     example: 'Rua das Palmeiras, 100',
     nullable: true,
-    description: 'Artist street address.',
   })
   @IsOptional()
   @IsString()
@@ -48,7 +60,6 @@ export class UpdateArtistDto {
   @ApiPropertyOptional({
     example: 'Sao Paulo',
     nullable: true,
-    description: 'Artist city.',
   })
   @IsOptional()
   @IsString()
@@ -57,16 +68,14 @@ export class UpdateArtistDto {
   @ApiPropertyOptional({
     example: 'SP',
     nullable: true,
-    description: 'Artist state or region.',
   })
   @IsOptional()
   @IsString()
   state?: string | null;
 
   @ApiPropertyOptional({
-    example: 'dj.orbit@pix.com.br',
+    example: 'chave pix',
     nullable: true,
-    description: 'Artist PIX key used for payments.',
   })
   @IsOptional()
   @IsString()

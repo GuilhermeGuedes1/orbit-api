@@ -79,7 +79,7 @@ model User {
 model Invite {
   id String @id @default(uuid())
 
-  email String
+  email String @unique
   token String @unique
 
   role Role
@@ -108,7 +108,7 @@ model Artist {
   birthDate DateTime?
 
   phone String?
-  email String?
+  email String? @unique
 
   address String?
   city    String?

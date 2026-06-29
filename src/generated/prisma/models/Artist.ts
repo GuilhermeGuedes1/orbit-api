@@ -281,6 +281,7 @@ export type ArtistOrderByWithRelationInput = {
 
 export type ArtistWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  email?: string
   userId?: string
   AND?: Prisma.ArtistWhereInput | Prisma.ArtistWhereInput[]
   OR?: Prisma.ArtistWhereInput[]
@@ -289,7 +290,6 @@ export type ArtistWhereUniqueInput = Prisma.AtLeast<{
   stageName?: Prisma.StringFilter<"Artist"> | string
   birthDate?: Prisma.DateTimeNullableFilter<"Artist"> | Date | string | null
   phone?: Prisma.StringNullableFilter<"Artist"> | string | null
-  email?: Prisma.StringNullableFilter<"Artist"> | string | null
   address?: Prisma.StringNullableFilter<"Artist"> | string | null
   city?: Prisma.StringNullableFilter<"Artist"> | string | null
   state?: Prisma.StringNullableFilter<"Artist"> | string | null
@@ -300,7 +300,7 @@ export type ArtistWhereUniqueInput = Prisma.AtLeast<{
   user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   organization?: Prisma.XOR<Prisma.OrganizationScalarRelationFilter, Prisma.OrganizationWhereInput>
   events?: Prisma.EventListRelationFilter
-}, "id" | "userId">
+}, "id" | "email" | "userId">
 
 export type ArtistOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
