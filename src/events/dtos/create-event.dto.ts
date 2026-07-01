@@ -90,14 +90,22 @@ export class CreateEventDto {
   @IsUUID()
   artistId!: string;
 
-  @ApiProperty({
-    example: 'Maria Silva',
+  @ApiPropertyOptional({
+    example: 'c4c49f6c-0b0c-4e7f-a92f-1c8d7c6b9d8e',
     description:
-      'Client name. A client record is created together with the event.',
+      'Existing client identifier. If provided, event will use this client.',
+  })
+  @IsUUID()
+  @IsOptional()
+  clientId?: string;
+
+  @ApiPropertyOptional({
+    example: 'Maria Silva',
+    description: 'Client name. Required when clientId is not provided.',
   })
   @IsString()
-  @IsNotEmpty()
-  clientName!: string;
+  @IsOptional()
+  clientName?: string;
 
   @ApiPropertyOptional({
     example: '+5521999999999',

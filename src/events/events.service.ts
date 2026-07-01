@@ -40,35 +40,54 @@ export class EventsService {
 
   async createEvent(data: CreateEventDto, user: CurrentUserDto) {
     try {
-      const clientWhereOr: Prisma.ClientWhereInput[] = [];
+      let client;
 
-      if (data.clientEmail) {
-        clientWhereOr.push({ email: data.clientEmail });
-      }
-
-      if (data.clientPhone) {
-        clientWhereOr.push({ phone: data.clientPhone });
-      }
-
-      let client = clientWhereOr.length
-        ? await this.prisma.client.findFirst({
-            where: {
-              organizationId: user.organizationId,
-              OR: clientWhereOr,
-            },
-          })
-        : null;
-
-      if (!client) {
-        client = await this.prisma.client.create({
-          data: {
-            name: data.clientName,
-            phone: data.clientPhone,
-            email: data.clientEmail,
-            companyName: data.clientCompanyName,
+      if (data.clientId) {
+        client = await this.prisma.client.findFirst({
+          where: {
+            id: data.clientId,
             organizationId: user.organizationId,
           },
         });
+
+        if (!client) {
+          throw new BadRequestException("Client doesn't exist");
+        }
+      } else {
+        if (!data.clientName) {
+          throw new BadRequestException('Client name is required');
+        }
+
+        const clientWhereOr: Prisma.ClientWhereInput[] = [];
+
+        if (data.clientEmail) {
+          clientWhereOr.push({ email: data.clientEmail });
+        }
+
+        if (data.clientPhone) {
+          clientWhereOr.push({ phone: data.clientPhone });
+        }
+
+        client = clientWhereOr.length
+          ? await this.prisma.client.findFirst({
+              where: {
+                organizationId: user.organizationId,
+                OR: clientWhereOr,
+              },
+            })
+          : null;
+
+        if (!client) {
+          client = await this.prisma.client.create({
+            data: {
+              name: data.clientName,
+              phone: data.clientPhone,
+              email: data.clientEmail,
+              companyName: data.clientCompanyName,
+              organizationId: user.organizationId,
+            },
+          });
+        }
       }
 
       const eventCreated = await this.prisma.event.create({
@@ -187,12 +206,15 @@ export class EventsService {
 
     const {
       artistId,
+      clientId,
       clientName,
       clientPhone,
       clientEmail,
       clientCompanyName,
       ...eventData
     } = data;
+
+    void clientId;
 
     if (event.clientId) {
       await this.prisma.client.update({
