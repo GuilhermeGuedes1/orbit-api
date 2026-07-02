@@ -192,4 +192,51 @@ export class AuthService {
 
     return new UserResponseDto(updatedUser);
   }
+
+  async googleLogin(googleUser: {
+    email?: string;
+    googleId: string;
+    name?: string;
+    lastName?: string;
+    avatarUrl?: string;
+  }) {
+    if (!googleUser.email) {
+      throw new UnauthorizedException('Google account has no email.');
+    }
+
+    const user = await this.prisma.user.findUnique({
+      where: {
+        email: googleUser.email,
+      },
+      include: {
+        organization: {
+          select: {
+            name: true,
+          },
+        },
+        artist: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException('Account not found.');
+    }
+
+    const payload = {
+      sub: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      organizationId: user.organizationId,
+      organizationName: user.organization.name,
+      artistId: user.artist?.id ?? null,
+    };
+
+    const accessToken = await this.jwt.signAsync(payload);
+    return { accessToken };
+  }
 }

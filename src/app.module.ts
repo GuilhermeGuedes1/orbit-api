@@ -10,8 +10,11 @@ import { AiModule } from './ai/ai.module';
 import { ArtistsModule } from './artists/artists.module';
 import { HealthModuleModule } from './health-module/health-module.module';
 
+import { ConfigModule } from '@nestjs/config';
+
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     AuthModule,
     PrismaModule,
     OrganizationModule,
