@@ -4,9 +4,13 @@ import {
   Get,
   Post,
   UseGuards,
-  Request,
+  Req,
+  Res,
   Patch,
 } from '@nestjs/common';
+
+import { AuthGuard as PassportAuthGuard } from '@nestjs/passport';
+import type { Response } from 'express';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dtos/register.dto';
 import { LoginDto } from './dtos/login.dto';
@@ -31,6 +35,14 @@ import {
   RegisterResponseDto,
 } from './dtos/auth-response.dto';
 import { MeResponseDto } from './dtos/me-response.dto';
+
+type GoogleOAuthUser = {
+  email?: string;
+  googleId: string;
+  name?: string;
+  lastName?: string;
+  avatarUrl?: string;
+};
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -129,5 +141,28 @@ export class AuthController {
   @Patch('me')
   updateMe(@CurrentUser() user: CurrentUserDto, @Body() body: UpdateMeDto) {
     return this.authService.updateMe(user, body);
+  }
+
+  @Get('google')
+  @UseGuards(PassportAuthGuard('google'))
+  googleAuth() {
+    return;
+  }
+
+  @Get('google/callback')
+  @UseGuards(PassportAuthGuard('google'))
+  async googleAuthCallback(@Req() req, @Res() res: Response) {
+    try {
+      const googleUser = req.user as GoogleOAuthUser;
+      const result = await this.authService.googleLogin(googleUser);
+
+      return res.redirect(
+        `${process.env.FRONTEND_URL}/auth/google/callback?token=${result.accessToken}`,
+      );
+    } catch {
+      return res.redirect(
+        `${process.env.FRONTEND_URL}/login?error=google_account_not_found`,
+      );
+    }
   }
 }

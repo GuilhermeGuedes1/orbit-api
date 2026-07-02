@@ -22,8 +22,10 @@
   "dependencies": {
     "@google/genai": "^2.8.0",
     "@nestjs/common": "^11.0.1",
+    "@nestjs/config": "^4.0.4",
     "@nestjs/core": "^11.0.1",
     "@nestjs/jwt": "^11.0.2",
+    "@nestjs/passport": "^11.0.5",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/swagger": "^11.4.4",
     "@prisma/adapter-pg": "^7.8.0",
@@ -35,11 +37,13 @@
     "dotenv": "^17.4.2",
     "openai": "^6.42.0",
     "openapi": "^1.0.1",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0",
     "pg": "^8.21.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
-    "zod": "^4.4.3",
-    "swagger-ui-express": "^5.0.1"
+    "swagger-ui-express": "^5.0.1",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
@@ -51,6 +55,7 @@
     "@types/express": "^5.0.0",
     "@types/jest": "^30.0.0",
     "@types/node": "^24.0.0",
+    "@types/passport-google-oauth20": "^2.0.17",
     "@types/pg": "^8.20.0",
     "@types/supertest": "^7.0.0",
     "add": "^2.0.6",
